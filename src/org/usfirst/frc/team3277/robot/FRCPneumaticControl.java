@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package org.usfirst.frc.team3277.robot;;
+package org.usfirst.frc.team3277.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Relay;

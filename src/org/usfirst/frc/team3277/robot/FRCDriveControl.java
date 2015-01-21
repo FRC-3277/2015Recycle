@@ -5,8 +5,7 @@
  */
 
 package org.usfirst.frc.team3277.robot;
-
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.CANJaguar;
 
 /**
  *

@@ -6,8 +6,8 @@
 
 package org.usfirst.frc.team3277.robot;
 
-import edu.wpi.first.wpilibj.can.*;
-
+import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.can.*;
  */
 public class Jaguar {
     public static CANJaguar initJag(int motor) {
-        return initJag(motor, CANJaguar.NeutralMode.kBrake);
+        return initJag(motor, CANJaguar.NeutralMode.Brake);
     }
 
     public static CANJaguar initJag(int motor, CANJaguar.NeutralMode neutralMode) {

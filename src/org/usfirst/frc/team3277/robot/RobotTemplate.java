@@ -7,12 +7,12 @@
 
 package org.usfirst.frc.team3277.robot;
 
-
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.Timer;
+// Gone from 2015 build season.
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
