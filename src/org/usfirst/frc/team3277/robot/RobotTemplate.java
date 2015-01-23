@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.MotorSafetyHelper;
+import edu.wpi.first.wpilibj.MotorSafety;
 // Gone from 2015 build season.
-import edu.wpi.first.wpilibj.Watchdog;
-import edu.wpi.first.wpilibj.can.CANTimeoutException;
+//import edu.wpi.first.wpilibj.watchdog;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,23 +39,13 @@ public class RobotTemplate extends IterativeRobot {
     // Drive System
     FRCDriveControl DriveControl; 
     
-    // Pneumatic Control
-    FRCPneumaticControl PneumaticControl;
-    
-    // Shooter System
-    FRCShooterControl ShooterControl;
-    
-    // Picker System
-    FRCPickerControl PickerControl;
     Timer TeleopInitTimer;
-    
-    // Driver Station
-    DriverStationScreen DriverScreen;
-    
+
     // Autonomous
     Timer AutonomousTimer;
-    boolean HasAutonomouslyShot;
-    
+
+    MotorSafety motorSafety;
+    MotorSafetyHelper watchdog;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -61,25 +53,17 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void robotInit() {
         // Input
-        joystick = new Joystick(1);
-        controller = new Joystick(2);
+        joystick = new Joystick(0);
+        controller = new Joystick(1);
         
         // Drive
         DriveControl = new FRCDriveControl();
         
-        // Pneumatic Control
-        PneumaticControl = new FRCPneumaticControl();
-        
-        // Shoot
-        ShooterControl = new FRCShooterControl();
-        
-        // Pick up
-        PickerControl = new FRCPickerControl();
         TeleopInitTimer = new Timer();
         
-        // Driver Station
-        DriverScreen = new DriverStationScreen();
-        
+
+        watchdog = new MotorSafetyHelper(motorSafety);
+        watchdog.setExpiration(100);
     }
 
     /**
@@ -89,14 +73,8 @@ public class RobotTemplate extends IterativeRobot {
     {
         AutonomousTimer = new Timer();
         AutonomousTimer.start();
-        ShooterControl.Pressurize();
-        HasAutonomouslyShot = false;
     }
-    public void disabledInit(){
-    }
-    public void disabledPeriodic(){
-        PickerControl.Control(false, true, false, false);
-    }
+
     /**
      * This function is called periodically during autonomous
      */
@@ -104,76 +82,37 @@ public class RobotTemplate extends IterativeRobot {
         
         
         double autonomousTime = AutonomousTimer.get();
-        PickerControl.Control(true, false, false, false);
-        if (autonomousTime < 4.0)
-        {
-            ShooterControl.Shoot(false);
-            ShooterControl.Pressurize();
-            DriveControl.Drive(0.0, -0.300, 0.0); 
-        }
-        if (autonomousTime > 4.0 && autonomousTime < 4.5)
-        {
-            ShooterControl.Shoot(false);
-            ShooterControl.Pressurize();
-            DriveControl.Drive(0.0, 0.0, 0.0);
-        }
-        if (autonomousTime > 4.5)
-        {
-            if (!HasAutonomouslyShot && ShooterControl.ReadyToShoot())
-            {
-                HasAutonomouslyShot = true;
-                ShooterControl.Shoot(true);
-            }
-            else
-            {
-                ShooterControl.Shoot(false);
-            }
-        }
-        
-        DriverScreen.printLine(1, "Autonomous Timer: " + autonomousTime);
-        ShooterControl.Output(DriverScreen);
     }
 
     public void teleopInit() {
-        PneumaticControl.Start();
-        ShooterControl.Pressurize();
         TeleopInitTimer.reset();
         TeleopInitTimer.start();
-        PickerControl.Control(false, true, false, false);
     }
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
         // Drive system
-        Watchdog.getInstance().feed();
-        DriveControl.Drive(joystick.getX(), joystick.getY(), joystick.getTwist(), (!joystick.getRawButton(2) ? 0.5 : 1.0));
-        Watchdog.getInstance().feed();
+        watchdog.feed();
+        // What was twist used for last year?
+        //DriveControl.Drive(joystick.getX(), joystick.getY(), joystick.getTwist());
+        DriveControl.Drive((int)joystick.getX(), (int)joystick.getY());
+        watchdog.feed();
         
         // Shooting system
-//        Watchdog.getInstance().feed();
+//       watchdog.feed();
 //        ShooterControl.Unlatch(joystick.getRawButton(11));
-//        Watchdog.getInstance().feed();
+//       watchdog.feed();
 //        ShooterControl.Latch(joystick.getRawButton(12));
-//        Watchdog.getInstance().feed();
+//       watchdog.feed();
 //        ShooterControl.Shoot(joystick.getRawButton(9));
-//        Watchdog.getInstance().feed();
+//       watchdog.feed();
 //        ShooterControl.RetractShooter(joystick.getRawButton(10));
-//        Watchdog.getInstance().feed();
+//       watchdog.feed();
         
-        // Autoshooter
-        Watchdog.getInstance().feed();
-        ShooterControl.Shoot(joystick.getRawButton(3));
-        ShooterControl.Output(DriverScreen);
-        Watchdog.getInstance().feed();
+
         
-        // Picking-up system
-        Watchdog.getInstance().feed();
-        if (TeleopInitTimer.get() < 1.0)
-            PickerControl.Control(false, true, false, false);
-        else
-            PickerControl.Control(controller.getRawButton(1), controller.getRawButton(4), controller.getRawButton(3), controller.getRawButton(2));
-        Watchdog.getInstance().feed();
+
         
 //        if (controller.getRawButton(1))
 //        {
@@ -200,7 +139,6 @@ public class RobotTemplate extends IterativeRobot {
 //            PickerControl.RetractReverseControl(retractReverse);
 //        }
         
-        ShooterControl.Output(DriverScreen);
         //DriverScreen.printLine(6, "PS: " + extendForward + "|" + extendReverse + "|" + retractForward + "|" + retractReverse);
     }
     

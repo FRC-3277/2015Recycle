@@ -3,11 +3,13 @@
  * and open the template in the editor.
  */
 package org.usfirst.frc.team3277.robot;
-import edu.wpi.first.wpilibj.DriverStationLCD;
+// TODO: Replace with 2015 methods
+//import edu.wpi.first.wpilibj.DriverStationLCD;
 /**
  *
  * @author Driver
  */
+/*
 public final class DriverStationScreen {
     private static DriverStationLCD lcd = DriverStationLCD.getInstance();
 
@@ -42,3 +44,4 @@ public final class DriverStationScreen {
         }
     }
 }
+*/

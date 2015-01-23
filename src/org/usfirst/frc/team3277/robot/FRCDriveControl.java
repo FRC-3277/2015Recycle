@@ -6,47 +6,46 @@
 
 package org.usfirst.frc.team3277.robot;
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
  *
  * @author Robot_2
  */
 public class FRCDriveControl {
-   private final int LEFT_FRONT_JAG = 2;
-   private final int LEFT_REAR_JAG = 3;
-   private final int RIGHT_FRONT_JAG = 4;
-   private final int RIGHT_REAR_JAG = 1;
+   private final int LEFT_FRONT_JAG = 1;
+ //  private final int LEFT_REAR_JAG = 3;
+   private final int RIGHT_FRONT_JAG = 2;
+ //  private final int RIGHT_REAR_JAG = 1;
    private CANJaguar LeftFront;
-   private CANJaguar LeftRear;
+//   private CANJaguar LeftRear;
    private CANJaguar RightFront;
-   private CANJaguar RightRear;
+//   private CANJaguar RightRear;
    private RobotDrive FRCRobotDrive;
    
    public FRCDriveControl()
    {
-       LeftFront = Jaguar.initJag(LEFT_FRONT_JAG);
-       LeftRear = Jaguar.initJag(LEFT_REAR_JAG);
-       RightFront = Jaguar.initJag(RIGHT_FRONT_JAG);
-       RightRear = Jaguar.initJag(RIGHT_REAR_JAG);
-       FRCRobotDrive = new RobotDrive(LeftFront, LeftRear, RightFront, RightRear);
+       LeftFront = new CANJaguar(LEFT_FRONT_JAG);
+    //   LeftRear = Jaguar.initJag(LEFT_REAR_JAG);
+       RightFront = new CANJaguar(RIGHT_FRONT_JAG);
+      // RightRear = Jaguar.initJag(RIGHT_REAR_JAG);
+       FRCRobotDrive = new RobotDrive(LeftFront, RightFront);
        FRCRobotDrive.setSafetyEnabled(false);
 
        FRCRobotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
-       FRCRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+   //    FRCRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
    }
 
    public void Drive(double x, double y, double twist)
    {
-       Drive(x, y, twist, 1.0);
+	   //TODO: What does this do?
+       Drive(x, y, twist);
    }
    
-   public void Drive(double x, double y, double twist, double sensitivity)
+   public void Drive(int y, int x)
    {
-       if (sensitivity > 1.0)
-           sensitivity = 1.0;
-       if (sensitivity < 0.0)
-           sensitivity = 0.0;
-       FRCRobotDrive.mecanumDrive_Cartesian(x * sensitivity, y * sensitivity, twist * sensitivity, 0);
+       
+       FRCRobotDrive.arcadeDrive(y, x);
    }
     
    

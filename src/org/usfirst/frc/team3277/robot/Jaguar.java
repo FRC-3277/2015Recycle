@@ -8,6 +8,7 @@ package org.usfirst.frc.team3277.robot;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.can.CANNotInitializedException;
 
 /**
  *
@@ -25,7 +26,7 @@ public class Jaguar {
         for (maxRetries = 0; jag == null && maxRetries < 10; maxRetries++) {
             try {
                 jag = new CANJaguar(motor);
-            } catch (Exception e) {
+            } catch (CANNotInitializedException e) {
                 System.out.println("CANJaguar(" + motor + ") \"" + "\" error " + e.getMessage());
                 Timer.delay(.1);
             }
@@ -40,7 +41,7 @@ public class Jaguar {
 //                jag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
                 jag.configNeutralMode(neutralMode);
                 System.out.println("CANJaguar(" + motor + ") \"" + "\" is set up correctly");
-            } catch (CANTimeoutException ex) {
+            } catch (CANNotInitializedException ex) {
                 System.out.println("CANJaguar(" + motor + ") \"" + "\" error configuring encoder: " + ex.getMessage());
             }
         }
