@@ -7,7 +7,7 @@ package org.usfirst.frc.team3277.robot;
 //import edu.wpi.first.wpilibj.DriverStationLCD;
 /**
  *
- * @author Driver
+ * @author team3277
  */
 /*
 public final class DriverStationScreen {
