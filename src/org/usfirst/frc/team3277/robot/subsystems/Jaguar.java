@@ -10,13 +10,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Technically this is NOT a subsystem.
  */
 public class Jaguar extends Subsystem {
-    
+	// Subsystem devices
+	// N/A This is the component level
+	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    public Jaguar()
+    {
+    	super();
     }
     
     public static CANJaguar initJag(int motor) 

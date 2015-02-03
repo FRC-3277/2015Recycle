@@ -6,14 +6,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class CompassSensor extends Subsystem {
-    
+	// Subsystem devices
+	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
+	
+	 public void initDefaultCommand() {
+	        // Set the default command for a subsystem here.
+	        //setDefaultCommand(new MySpecialCommand());
+	}
+	
+	public CompassSensor()
+	{
+		super();
+	}
     
     /**
 	 * The log method puts information of interest from the CompassSensor subsystem to the SmartDashboard.

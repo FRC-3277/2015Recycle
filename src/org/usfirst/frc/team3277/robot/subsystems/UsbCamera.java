@@ -9,10 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class UsbCamera extends Subsystem {
-	private RobotMap sanityMap;
-	
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+	// Subsystem devices
 	CameraServer server;
 
     public void initDefaultCommand() {
@@ -22,10 +19,11 @@ public class UsbCamera extends Subsystem {
     
     public UsbCamera()
     {
+    	super();
     	server = CameraServer.getInstance();
-        server.setQuality(sanityMap.USB_CAMERA_QUALITY);
+        server.setQuality(RobotMap.USB_CAMERA_QUALITY);
         //the camera name (ex "cam0") can be found through the roborio web interface
-        server.startAutomaticCapture(sanityMap.USB_CAMERA_INSTANCE);
+        server.startAutomaticCapture(RobotMap.USB_CAMERA_INSTANCE);
     }
     
     /**

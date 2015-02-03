@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DriveTrain extends Subsystem {
-	private RobotMap sanityMap;
+	// Subsystem devices
 	
 	MotorSafety motorSafety;
 	MotorSafetyHelper watchdog;
@@ -41,7 +41,7 @@ public class DriveTrain extends Subsystem {
     {
     	try 
     	{
-			LeftFront = Jaguar.initJag(sanityMap.FRONT_LEFT_DRIVE);
+			LeftFront = Jaguar.initJag(RobotMap.FRONT_LEFT_DRIVE);
 			LeftFront.enableControl();
 		} 
     	catch (Exception e) 
@@ -51,7 +51,7 @@ public class DriveTrain extends Subsystem {
     	
     	try 
     	{
-    		LeftRear = Jaguar.initJag(sanityMap.REAR_LEFT_DRIVE);
+    		LeftRear = Jaguar.initJag(RobotMap.REAR_LEFT_DRIVE);
     		LeftRear.enableControl();
 		} 
     	catch (Exception e) 
@@ -61,7 +61,7 @@ public class DriveTrain extends Subsystem {
     	
     	try 
     	{
-			RightFront = Jaguar.initJag(sanityMap.FRONT_RIGHT_DRIVE);
+			RightFront = Jaguar.initJag(RobotMap.FRONT_RIGHT_DRIVE);
 			RightFront.enableControl();
 			// RightRear = Jaguar.initJag(RIGHT_REAR_JAG);
 		} 
@@ -72,7 +72,7 @@ public class DriveTrain extends Subsystem {
     	
     	try 
     	{
-			RightRear = Jaguar.initJag(sanityMap.REAR_RIGHT_DRIVE);
+			RightRear = Jaguar.initJag(RobotMap.REAR_RIGHT_DRIVE);
 			RightRear.enableControl();
 		} 
     	catch (Exception e) 
@@ -93,7 +93,7 @@ public class DriveTrain extends Subsystem {
     	drive.setSafetyEnabled(true);
     	
     	watchdog = new MotorSafetyHelper(motorSafety);
-		watchdog.setExpiration(sanityMap.DRIVE_TRAIN_DEFAULT_DISABLE_TIMEOUT);
+		watchdog.setExpiration(RobotMap.DRIVE_TRAIN_DEFAULT_DISABLE_TIMEOUT);
     }
 	
 	/**

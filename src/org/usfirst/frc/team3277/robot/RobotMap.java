@@ -11,12 +11,12 @@ public class RobotMap {
 	/*
 	 * Safety First!  If the robot goes rogue this is the time in seconds which the robot will stop moving.
 	 */
-	public final int DRIVE_TRAIN_DEFAULT_DISABLE_TIMEOUT = 15;
+	public final static int DRIVE_TRAIN_DEFAULT_DISABLE_TIMEOUT = 15;
 	
 	/*
 	 * Operator input device port
 	 */
-	public static final int OPERATOR_INPUT_DEVICE_JOYSTICK = 0, OPERATOR_INPUT_DEVICE_CONTROLLER = 1;
+	public final static int OPERATOR_INPUT_DEVICE_JOYSTICK = 0, OPERATOR_INPUT_DEVICE_CONTROLLER = 1;
 	
 	/*
 	 * DriveTrain Motors - Keep the same for ProtoBot, Swerve, or Mechanum
@@ -27,7 +27,7 @@ public class RobotMap {
 	 * In a two motor bot such as the ProtoBot the FRONT motors are the ones to
 	 * reference.
 	 */
-	public final int FRONT_LEFT_DRIVE = 2, FRONT_RIGHT_DRIVE = 3,
+	public final static int FRONT_LEFT_DRIVE = 2, FRONT_RIGHT_DRIVE = 3,
 					 REAR_LEFT_DRIVE = 4, REAR_RIGHT_DRIVE = 5;
 
 	// If you are using multiple modules, make sure to define both the port
@@ -38,48 +38,49 @@ public class RobotMap {
 	/*
 	 * Elevator setpoints broken down into 1 percent increments from zero to hundred.
 	 */
-	public final int ELEVATOR_FLOOR = 0,
+	public final static int ELEVATOR_FLOOR = 0,
 			ELEVATOR_MAX = 100;
 	
 	/*
 	 * Elevator Motors
 	 */
-	public final int LEFT_ELEVATOR = 6, RIGHT_ELEVATOR = 7;
+	public final static int LEFT_ELEVATOR = 6, RIGHT_ELEVATOR = 7;
 	
 	/*
 	 * Elevator joystick buttons
 	 */
-	public final int BUTTON_ELEVATOR_UP = 0,
+	public final static int BUTTON_ELEVATOR_UP = 0,
 					 BUTTON_ELEVATOR_DOWN = 1;
 	
 	/*
 	 * Grabber motor
 	 */
-	public final int GRABBER_MOTOR = 8;
+	public final static int GRABBER_MOTOR = 8;
 	
 	/*
 	 * Grabber joystick buttons
 	 */
-	public final int BUTTON_GRABBER_OPEN = 3,
-					 BUTTON_GRABBER_CLOSE = 4;
+	public final static int BUTTON_GRABBER_OPEN = 3;
+
+	public final static int BUTTON_GRABBER_CLOSE = 4;
 	
 	/*
 	 * Autonomous mode joystick button
 	 */
-	public final int BUTTON_AUTONOMOUS_MODE_ENABLE = 5;
+	public final static int BUTTON_AUTONOMOUS_MODE_ENABLE = 5;
 	
 	/*************************** BEGIN SENSORS ***************************************/
 	/*
 	 * Gyro
 	 */
-	public final int GYRO_CHANNEL = 2;
-	public final double GYRO_SENSATIVITY = 0.007;
+	public final static int GYRO_CHANNEL = 2;
+	public final static double GYRO_SENSATIVITY = 0.007;
 	
 	/*
 	 * Usb Camera
 	 */
-	public final String USB_CAMERA_INSTANCE = "cam1";
-	public final int USB_CAMERA_QUALITY = 50;
+	public final static String USB_CAMERA_INSTANCE = "cam1";
+	public final static int USB_CAMERA_QUALITY = 50;
 	
 	/*************************** END SENSORS *****************************************/
 }
