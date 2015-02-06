@@ -1,25 +1,57 @@
 package org.usfirst.frc.team3277.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 
 /**
  *
  */
 public class Accelerometer extends Subsystem {
 	// Subsystem devices
+	BuiltInAccelerometer accelerometer = null;
 	
-	
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+    // Variables
+	private double xVal = 0;
+	private double yVal = 0;
+	private double zVal = 0;
 	
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
 	
+	/**
+	 * Instantiates a new accelerometer.
+	 */
 	public Accelerometer()
 	{
 		super();
+		// The BuiltInAccelerometer default Range value is k8G.  The accelerometer is k16G measurement capable, but not enabled in the code.
+		accelerometer = new BuiltInAccelerometer(Range.k2G);
+	}
+	
+	public void getDataUpdate()
+	{
+		xVal = accelerometer.getX();
+		yVal = accelerometer.getY();
+		zVal = accelerometer.getZ();
+	}
+	
+	public double getX()
+	{
+		return this.xVal;
+	}
+	
+	public double getY()
+	{
+		return this.yVal;
+	}
+	
+	public double getZ()
+	{
+		return this.zVal;
 	}
     
     /**
@@ -27,7 +59,10 @@ public class Accelerometer extends Subsystem {
 	 */
     public void dashLog() 
     {
-        //SmartDashboard.putData("Key", value);
+    	getDataUpdate();
+        SmartDashboard.putNumber("Acc-X", this.getX());
+        SmartDashboard.putNumber("Acc-Y", this.getY());
+        SmartDashboard.putNumber("Acc-Z", this.getZ());
     }
 }
 

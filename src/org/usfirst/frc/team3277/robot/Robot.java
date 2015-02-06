@@ -2,6 +2,7 @@ package org.usfirst.frc.team3277.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.Timer;
@@ -16,6 +17,8 @@ import org.usfirst.frc.team3277.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3277.robot.subsystems.Elevator;
 import org.usfirst.frc.team3277.robot.subsystems.Grabber;
 import org.usfirst.frc.team3277.robot.subsystems.UsbCamera;
+import org.usfirst.frc.team3277.robot.subsystems.LidarSensor;
+import org.usfirst.frc.team3277.robot.subsystems.Accelerometer;
 
 // Commands to include
 import org.usfirst.frc.team3277.robot.commands.Autonomous;
@@ -36,6 +39,8 @@ public class Robot extends IterativeRobot {
 	public static Elevator elevator;
 	public static Grabber grabber;
 	public static UsbCamera usbCamera;
+	public static LidarSensor lidarSensor;
+	public static Accelerometer accelerometer;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -48,6 +53,10 @@ public class Robot extends IterativeRobot {
 		elevator = new Elevator();
 		grabber = new Grabber();
 		usbCamera = new UsbCamera();
+		lidarSensor = new LidarSensor(Port.kMXP);
+		lidarSensor.start();
+		accelerometer = new Accelerometer();
+		
 
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();
@@ -57,6 +66,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(elevator);
 		SmartDashboard.putData(grabber);
 		SmartDashboard.putData(usbCamera);
+		SmartDashboard.putData(lidarSensor);
+		SmartDashboard.putData(accelerometer);
 	}
 
 	/**
@@ -111,5 +122,7 @@ public class Robot extends IterativeRobot {
     private void dashLog() {
         elevator.dashLog();
         drivetrain.dashLog();
+        lidarSensor.dashLog();
+        accelerometer.dashLog();
     }
 }

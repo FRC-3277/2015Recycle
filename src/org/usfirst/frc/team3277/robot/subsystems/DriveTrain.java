@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Gyro;
 
 /**
  *
@@ -21,6 +22,7 @@ public class DriveTrain extends Subsystem {
 	
 	MotorSafety motorSafety;
 	MotorSafetyHelper watchdog;
+	GyroSensor gyro;
 	
 	// Subsystem devices
 	private CANJaguar LeftFront;
@@ -39,6 +41,17 @@ public class DriveTrain extends Subsystem {
     
     public DriveTrain()
     {
+    	
+    	try
+    	{
+    		gyro = new GyroSensor(RobotMap.GYRO_ANALOG_CHANNEL, RobotMap.GYRO_SENSATIVITY);
+    		gyro.reset();
+    	}
+    	catch (Exception e)
+    	{
+    		dashLogError("Gyro Sensor Failure: " + e.getMessage());
+    	}
+    	
     	try 
     	{
 			LeftFront = Jaguar.initJag(RobotMap.FRONT_LEFT_DRIVE);
@@ -106,6 +119,7 @@ public class DriveTrain extends Subsystem {
 	public void arcadeDrive(Joystick joystick)
 	{
 		drive.arcadeDrive(joystick.getY(),-joystick.getTwist());
+		gyro.dashLog();
 	}
 	
 	/**
@@ -143,7 +157,7 @@ public class DriveTrain extends Subsystem {
      */
     public void dashLogError(String message)
     {
-    	SmartDashboard.putString("Error", message);
+    	SmartDashboard.putString("DriveTrainError", message);
     }
 }
 

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3277.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.TimerTask;
 
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.PIDSource;
  * The LIDAR sensor is for distance measurement.  This code was sourced
  * from: https://gist.github.com/anonymous/4aac6d39f0de0e0faac0
  * Note - a forked, FRC team tech2077, version exists at: https://gist.github.com/tech2077/c4ba2d344bdfcddd48d2
+ * Important - We experienced failure to acquire data like many posts read about the kOnboard i2c.  We had success with the MXP connector.
  */
 public class LidarSensor extends Subsystem implements PIDSource 
 {
@@ -31,7 +33,8 @@ public class LidarSensor extends Subsystem implements PIDSource
 	        //setDefaultCommand(new MySpecialCommand());
 	    }
 	 
-	public LidarSensor(Port port) {
+	public LidarSensor(Port port) 
+	{
 		i2c = new I2C(port, LIDAR_ADDR);
 		
 		distance = new byte[2];
@@ -63,7 +66,7 @@ public class LidarSensor extends Subsystem implements PIDSource
 		updater.cancel();
 	}
 	
-	// Update distance variable
+	// Update distance variable.  See the Quick Start Guide for documentation
 	public void update() {
 		i2c.write(LIDAR_CONFIG_REGISTER, 0x04); // Initiate measurement
 		Timer.delay(0.04); // Delay for measurement to be taken
@@ -73,15 +76,34 @@ public class LidarSensor extends Subsystem implements PIDSource
 	
 	// Timer task to keep distance updated
 	private class LIDARUpdater extends TimerTask {
-		public void run() {
-			while(true) {
+		public void run() 
+		{
+			while(true) 
+			{
 				update();
 				try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
+					dashLogError(e.getMessage());
 				}
 			}
 		}
 	}
+	
+	/**
+	 * The log method puts information of interest from the LidarSensor subsystem to the SmartDashboard.
+	 */
+    public void dashLog() 
+    {
+        SmartDashboard.putNumber("LidarDistance", pidGet());
+    }
+    
+    /**
+     * Log errors to the SmartDashboard.  Only one error will be represented at a time which may mask multiple errors.
+     */
+    public void dashLogError(String message)
+    {
+    	SmartDashboard.putString("LidarError", message);
+    }
 }

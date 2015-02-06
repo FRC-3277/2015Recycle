@@ -73,14 +73,20 @@ public class RobotMap {
 	/*
 	 * Gyro
 	 */
-	public final static int GYRO_CHANNEL = 2;
-	public final static double GYRO_SENSATIVITY = 0.007;
+	public final static int GYRO_ANALOG_CHANNEL = 0;
+	// See Page 3 of 13 from gyro ADW22307 documentation for mV/degree/s
+	public final static double GYRO_SENSATIVITY = 0.07;
 	
 	/*
 	 * Usb Camera
 	 */
 	public final static String USB_CAMERA_INSTANCE = "cam1";
 	public final static int USB_CAMERA_QUALITY = 50;
+	
+	/*
+	 * LIDAR
+	 */
+	//public final static Port LIDAR_CHANNEL;
 	
 	/*************************** END SENSORS *****************************************/
 }
