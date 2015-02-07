@@ -8,9 +8,12 @@ import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 /**
  *
  */
-public class Accelerometer extends Subsystem {
+public class Accelerometer extends Subsystem 
+{
 	// Subsystem devices
 	BuiltInAccelerometer accelerometer = null;
+	
+	static private Logger lumberjack;
 	
     // Variables
 	private double xVal = 0;
@@ -28,6 +31,8 @@ public class Accelerometer extends Subsystem {
 	public Accelerometer()
 	{
 		super();
+		lumberjack = new Logger();
+		
 		// The BuiltInAccelerometer default Range value is k8G.  The accelerometer is k16G measurement capable, but not enabled in the code.
 		accelerometer = new BuiltInAccelerometer(Range.k2G);
 	}
@@ -60,9 +65,9 @@ public class Accelerometer extends Subsystem {
     public void dashLog() 
     {
     	getDataUpdate();
-        SmartDashboard.putNumber("Acc-X", this.getX());
-        SmartDashboard.putNumber("Acc-Y", this.getY());
-        SmartDashboard.putNumber("Acc-Z", this.getZ());
+    	lumberjack.dashLogNumber("Acc-X", this.getX());
+    	lumberjack.dashLogNumber("Acc-Y", this.getY());
+    	lumberjack.dashLogNumber("Acc-Z", this.getZ());
     }
 }
 

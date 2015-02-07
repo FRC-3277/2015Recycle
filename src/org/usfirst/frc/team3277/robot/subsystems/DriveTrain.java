@@ -19,12 +19,6 @@ import edu.wpi.first.wpilibj.Gyro;
  */
 public class DriveTrain extends Subsystem {
 	// Subsystem devices
-	
-	MotorSafety motorSafety;
-	MotorSafetyHelper watchdog;
-	GyroSensor gyro;
-	
-	// Subsystem devices
 	private CANJaguar LeftFront;
 	@SuppressWarnings("unused")
 	private CANJaguar LeftRear;
@@ -33,6 +27,13 @@ public class DriveTrain extends Subsystem {
 	private CANJaguar RightRear;
 	private RobotDrive drive;
 	private Encoder rightEncoder, leftEncoder;
+	GyroSensor gyro;
+	
+	// Safety
+	MotorSafety motorSafety;
+	MotorSafetyHelper watchdog;
+	
+	static private Logger lumberjack;
 	
     public void initDefaultCommand() 
     {
@@ -41,6 +42,7 @@ public class DriveTrain extends Subsystem {
     
     public DriveTrain()
     {
+    	lumberjack = new Logger();
     	
     	try
     	{
@@ -49,7 +51,7 @@ public class DriveTrain extends Subsystem {
     	}
     	catch (Exception e)
     	{
-    		dashLogError("Gyro Sensor Failure: " + e.getMessage());
+    		lumberjack.dashLogError("DriveTrain", "Gyro Sensor - " + e.getMessage());
     	}
     	
     	try 
@@ -59,7 +61,7 @@ public class DriveTrain extends Subsystem {
 		} 
     	catch (Exception e) 
     	{
-    		dashLogError("LeftFront Jag Failure: " + e.getMessage());
+    		lumberjack.dashLogError("DriveTrain", "LeftFront Jag Failure: " + e.getMessage());
 		}
     	
     	try 
@@ -69,7 +71,7 @@ public class DriveTrain extends Subsystem {
 		} 
     	catch (Exception e) 
     	{
-    		dashLogError("LeftRear Jag Failure: " + e.getMessage());
+    		lumberjack.dashLogError("DriveTrain", "LeftRear Jag Failure: " + e.getMessage());
 		}
     	
     	try 
@@ -80,7 +82,7 @@ public class DriveTrain extends Subsystem {
 		} 
     	catch (Exception e) 
     	{
-			dashLogError("RightFront Jag Failure: " + e.getMessage());
+    		lumberjack.dashLogError("DriveTrain", "RightFront Jag Failure: " + e.getMessage());
 		}
     	
     	try 
@@ -90,7 +92,7 @@ public class DriveTrain extends Subsystem {
 		} 
     	catch (Exception e) 
     	{
-			dashLogError("RightRear Jag Failure: " + e.getMessage());
+    		lumberjack.dashLogError("DriveTrain", "RightRear Jag Failure: " + e.getMessage());
 		}
     	
     	try 
@@ -100,7 +102,7 @@ public class DriveTrain extends Subsystem {
 		} 
     	catch (Exception e) 
     	{
-			dashLogError("RobotDrive Failure: " + e.getMessage());
+    		lumberjack.dashLogError("DriveTrain", "RobotDrive Failure: " + e.getMessage());
 		}
     	// Don't disable.  Handle it!
     	drive.setSafetyEnabled(true);
@@ -150,14 +152,6 @@ public class DriveTrain extends Subsystem {
     public void dashLog() 
     {
         //SmartDashboard.putData("Key", value);
-    }
-    
-    /**
-     * Log errors to the SmartDashboard.  Only one error will be represented at a time which may mask multiple errors.
-     */
-    public void dashLogError(String message)
-    {
-    	SmartDashboard.putString("DriveTrainError", message);
     }
 }
 

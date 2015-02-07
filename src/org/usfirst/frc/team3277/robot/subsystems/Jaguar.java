@@ -13,9 +13,8 @@ public class Jaguar extends Subsystem {
 	// Subsystem devices
 	// N/A This is the component level
 	
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-
+    static private Logger lumberjack;
+    
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -23,7 +22,7 @@ public class Jaguar extends Subsystem {
     
     public Jaguar()
     {
-    	super();
+    	lumberjack = new Logger();
     }
     
     public static CANJaguar initJag(int motor) 
@@ -31,34 +30,44 @@ public class Jaguar extends Subsystem {
         return initJag(motor, CANJaguar.NeutralMode.Brake);
     }
     
-    public static CANJaguar initJag(int motor, CANJaguar.NeutralMode neutralMode) {
+    public static CANJaguar initJag(int motor, CANJaguar.NeutralMode neutralMode) 
+    {
         int maxRetries = 0;
         CANJaguar jag = null;
+        
         // Attempt to initialize up to 10 times
-        for (maxRetries = 0; jag == null && maxRetries < 10; maxRetries++) {
-            try {
+        for (maxRetries = 0; jag == null && maxRetries < 10; maxRetries++) 
+        {
+            try 
+            {
                 jag = new CANJaguar(motor);
-            } catch (CANNotInitializedException e) {
+            } 
+            catch (CANNotInitializedException e) 
+            {
             	SmartDashboard.putString("Error", "CANJaguar(" + motor + ") \"" + "\" error " + e.getMessage());
                 System.out.println("CANJaguar(" + motor + ") \"" + "\" error " + e.getMessage());
                 Timer.delay(.1);
             }
         }
-        if (jag == null) {
-            System.out.println("CANJaguar(" + motor + ") \"" + "\" did not initialize, cannot drive");
-            SmartDashboard.putString("Error:", "CANJaguar(" + motor + ") \"" + "\" did not initialize, cannot drive");
-            throw new NullPointerException("Null has it");
-        } else {
-            try {
+        
+        if (jag == null) 
+        {
+        	lumberjack.dashLogError("Jaguar", "CANJaguar(" + motor + ") \"" + "\" did not initialize, cannot drive");
+        } 
+        else 
+        {
+            try 
+            {
                 // Set up the encoders
 //                jag.configEncoderCodesPerRev(codesPerRev);
 //                jag.setSpeedReference(SpeedReference.kEncoder);
 //                jag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
                 jag.configNeutralMode(neutralMode);
                 System.out.println("CANJaguar(" + motor + ") \"" + "\" is set up correctly");
-            } catch (CANNotInitializedException ex) {
-            	SmartDashboard.putString("Error:", "CANJaguar(" + motor + ") \"" + "\" error configuring encoder: " + ex.getMessage());
-            	System.out.println("CANJaguar(" + motor + ") \"" + "\" error configuring encoder: " + ex.getMessage());
+            } 
+            catch (CANNotInitializedException ex) 
+            {
+            	lumberjack.dashLogError("Jaguar", "CANJaguar(" + motor + ") \"" + "\" error configuring encoder: " + ex.getMessage());
             }
         }
         return jag;

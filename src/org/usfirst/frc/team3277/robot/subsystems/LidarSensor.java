@@ -27,14 +27,17 @@ public class LidarSensor extends Subsystem implements PIDSource
 	private final int LIDAR_CONFIG_REGISTER = 0x00;
 	private final int LIDAR_DISTANCE_REGISTER = 0x8f;
 	
+	static private Logger lumberjack;
 	
-	 public void initDefaultCommand() {
-	        // Set the default command for a subsystem here.
-	        //setDefaultCommand(new MySpecialCommand());
-	    }
+	public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        //setDefaultCommand(new MySpecialCommand());
+    }
 	 
 	public LidarSensor(Port port) 
 	{
+		lumberjack = new Logger();
+		
 		i2c = new I2C(port, LIDAR_ADDR);
 		
 		distance = new byte[2];
@@ -81,11 +84,13 @@ public class LidarSensor extends Subsystem implements PIDSource
 			while(true) 
 			{
 				update();
-				try {
+				try 
+				{
 					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					dashLogError(e.getMessage());
+				} 
+				catch (InterruptedException e) 
+				{
+					lumberjack.dashLogError("LidarSensor",  e.getMessage());
 				}
 			}
 		}
@@ -96,14 +101,6 @@ public class LidarSensor extends Subsystem implements PIDSource
 	 */
     public void dashLog() 
     {
-        SmartDashboard.putNumber("LidarDistance", pidGet());
-    }
-    
-    /**
-     * Log errors to the SmartDashboard.  Only one error will be represented at a time which may mask multiple errors.
-     */
-    public void dashLogError(String message)
-    {
-    	SmartDashboard.putString("LidarError", message);
+    	lumberjack.dashLogNumber("LidarDistance", pidGet());
     }
 }

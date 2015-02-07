@@ -12,6 +12,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+
+
+
+
+
+
+
+
 // Each subsystem available to the robot must be included here.
 import org.usfirst.frc.team3277.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3277.robot.subsystems.Elevator;
@@ -19,6 +27,7 @@ import org.usfirst.frc.team3277.robot.subsystems.Grabber;
 import org.usfirst.frc.team3277.robot.subsystems.UsbCamera;
 import org.usfirst.frc.team3277.robot.subsystems.LidarSensor;
 import org.usfirst.frc.team3277.robot.subsystems.Accelerometer;
+import org.usfirst.frc.team3277.robot.subsystems.Logger;
 
 // Commands to include
 import org.usfirst.frc.team3277.robot.commands.Autonomous;
@@ -41,6 +50,7 @@ public class Robot extends IterativeRobot {
 	public static UsbCamera usbCamera;
 	public static LidarSensor lidarSensor;
 	public static Accelerometer accelerometer;
+	public static Logger lumberjack;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -48,26 +58,47 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		// Initialize the subsystems
-		operatorInterface = new OI();
-		drivetrain = new DriveTrain();
-		elevator = new Elevator();
-		grabber = new Grabber();
-		usbCamera = new UsbCamera();
-		lidarSensor = new LidarSensor(Port.kMXP);
-		lidarSensor.start();
-		accelerometer = new Accelerometer();
-		
+		lumberjack = new Logger();  // Make first priority to enable ability to capture logging.
+		try
+		{
+			operatorInterface = new OI();
+			drivetrain = new DriveTrain();
+			elevator = new Elevator();
+			grabber = new Grabber();
+			usbCamera = new UsbCamera();
+			lidarSensor = new LidarSensor(Port.kMXP);
+			lidarSensor.start();
+			accelerometer = new Accelerometer();
+		}
+		catch(Exception e)
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
 
 		// instantiate the command used for the autonomous period
-		autonomousCommand = new Autonomous();
+		try 
+		{
+			autonomousCommand = new Autonomous();
+		} 
+		catch (Exception e) 
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
 
 		// Show what command your subsystem is running on the SmartDashboard
-		SmartDashboard.putData(drivetrain);
-		SmartDashboard.putData(elevator);
-		SmartDashboard.putData(grabber);
-		SmartDashboard.putData(usbCamera);
-		SmartDashboard.putData(lidarSensor);
-		SmartDashboard.putData(accelerometer);
+		try 
+		{
+			SmartDashboard.putData(drivetrain);
+			SmartDashboard.putData(elevator);
+			SmartDashboard.putData(grabber);
+			SmartDashboard.putData(usbCamera);
+			SmartDashboard.putData(lidarSensor);
+			SmartDashboard.putData(accelerometer);
+		} 
+		catch (Exception e) 
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
 	}
 
 	/**
@@ -76,15 +107,29 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		// Launches the Autonomous command within the autonomous periodic
 		// Scheduler
-		autonomousCommand.start();
+		try 
+		{
+			autonomousCommand.start();
+		} 
+		catch (Exception e) 
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
 	}
 
 	/**
 	 * This function is repeatedly called periodically, 20 ms or less, during autonomous mode.
 	 */
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
-		this.dashLog();
+		try 
+		{
+			Scheduler.getInstance().run();
+			this.dashLog();
+		} 
+		catch (Exception e) 
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
 	}
 
 	/**
@@ -95,15 +140,29 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		autonomousCommand.cancel();
+		try 
+		{
+			autonomousCommand.cancel();
+		} 
+		catch (Exception e) 
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
 	}
 
 	/**
 	 * This function is repeatedly called periodically, 20 ms or less during operator control.
 	 */
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		this.dashLog();
+		try 
+		{
+			Scheduler.getInstance().run();
+			this.dashLog();
+		} 
+		catch (Exception e) 
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
 	}
 
 	/**
@@ -112,17 +171,31 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() 
 	{
 		// Not sure what this does.
-		LiveWindow.run();
-		this.dashLog();
+		try 
+		{
+			LiveWindow.run();
+			this.dashLog();
+		} 
+		catch (Exception e) 
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
 	}
 	
 	/**
 	 * The log method puts information of interest of the subsystems to the SmartDashboard.
 	 */
     private void dashLog() {
-        elevator.dashLog();
-        drivetrain.dashLog();
-        lidarSensor.dashLog();
-        accelerometer.dashLog();
+        try 
+        {
+			elevator.dashLog();
+			drivetrain.dashLog();
+			lidarSensor.dashLog();
+			accelerometer.dashLog();
+		} 
+        catch (Exception e) 
+        {
+        	lumberjack.dashLogError("Robot", e.getMessage());
+		}
     }
 }
