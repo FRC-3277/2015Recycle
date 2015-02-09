@@ -34,11 +34,11 @@ public class LidarSensor extends Subsystem implements PIDSource
         //setDefaultCommand(new MySpecialCommand());
     }
 	 
-	public LidarSensor(Port port) 
+	public LidarSensor() 
 	{
 		lumberjack = new Logger();
 		
-		i2c = new I2C(port, LIDAR_ADDR);
+		i2c = new I2C(Port.kMXP, LIDAR_ADDR);
 		
 		distance = new byte[2];
  

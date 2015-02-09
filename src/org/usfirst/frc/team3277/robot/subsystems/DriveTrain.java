@@ -46,7 +46,7 @@ public class DriveTrain extends Subsystem {
     	
     	try
     	{
-    		gyro = new GyroSensor(RobotMap.GYRO_ANALOG_CHANNEL, RobotMap.GYRO_SENSATIVITY);
+    		gyro = new GyroSensor(RobotMap.GYRO_ANALOG_CHANNEL, RobotMap.GYRO_SENSITIVITY);
     		gyro.reset();
     	}
     	catch (Exception e)

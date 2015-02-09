@@ -19,7 +19,7 @@ public class RobotMap {
 	public final static int OPERATOR_INPUT_DEVICE_JOYSTICK = 0, OPERATOR_INPUT_DEVICE_CONTROLLER = 1;
 	
 	/*
-	 * DriveTrain Motors - Keep the same for ProtoBot, Swerve, or Mechanum
+	 * DriveTrain Motors - Keep the same for ProtoBot, Swerve, or Mecanum
 	 * drive. Use the convention read like a book, front to back left to right
 	 * to order. Skip #1 since it should be reserved to give to the RoboRio if
 	 * need.
@@ -75,7 +75,7 @@ public class RobotMap {
 	 */
 	public final static int GYRO_ANALOG_CHANNEL = 0;
 	// See Page 3 of 13 from gyro ADW22307 documentation for mV/degree/s
-	public final static double GYRO_SENSATIVITY = 0.07;
+	public final static double GYRO_SENSITIVITY = 0.07;
 	
 	/*
 	 * Usb Camera

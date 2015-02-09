@@ -14,7 +14,7 @@ public class Logger
 	}
 	
 	/**
-	 * The log method puts String information of interest from the subsystem to the SmartDashboard.  Useful in
+	 * The log method puts "data"... information of interest from the subsystem to the SmartDashboard.  Useful in
 	 * dashLog() methods.
 	 */
     public void dashLogData(String key, Sendable data ) 
@@ -29,6 +29,15 @@ public class Logger
     public void dashLogNumber(String key, double value)
     {
     	SmartDashboard.putNumber(key, value);
+    }
+    
+    /**
+	 * The log method puts String information of interest from the subsystem to the SmartDashboard.  Useful in
+	 * dashLog() methods.
+	 */
+    public void dashLogString(String key, String message)
+    {
+    	SmartDashboard.putString(key, message);
     }
     
     /**

@@ -1,13 +1,9 @@
 package org.usfirst.frc.team3277.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.CANJaguar;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.MotorSafetyHelper;
-import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -60,10 +56,10 @@ public class Robot extends IterativeRobot {
 			elevator = new Elevator();
 			grabber = new Grabber();
 			usbCamera = new UsbCamera();
-			lidarSensor = new LidarSensor(Port.kMXP);
+			lidarSensor = new LidarSensor();
 			lidarSensor.start();
 			accelerometer = new Accelerometer();
-			arduinoReader = new ArduinoSerialRead("/dev/ttyACM0");
+			arduinoReader = new ArduinoSerialRead();
 		}
 		catch(Exception e)
 		{
@@ -198,6 +194,7 @@ public class Robot extends IterativeRobot {
 			drivetrain.dashLog();
 			lidarSensor.dashLog();
 			accelerometer.dashLog();
+			arduinoReader.dashLog();
 		} 
         catch (Exception e) 
         {
