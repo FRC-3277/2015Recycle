@@ -12,14 +12,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-
-
-
-
-
-
-
-
 // Each subsystem available to the robot must be included here.
 import org.usfirst.frc.team3277.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3277.robot.subsystems.Elevator;
@@ -28,6 +20,7 @@ import org.usfirst.frc.team3277.robot.subsystems.UsbCamera;
 import org.usfirst.frc.team3277.robot.subsystems.LidarSensor;
 import org.usfirst.frc.team3277.robot.subsystems.Accelerometer;
 import org.usfirst.frc.team3277.robot.subsystems.Logger;
+import org.usfirst.frc.team3277.robot.subsystems.ArduinoSerialRead;
 
 // Commands to include
 import org.usfirst.frc.team3277.robot.commands.Autonomous;
@@ -51,6 +44,7 @@ public class Robot extends IterativeRobot {
 	public static LidarSensor lidarSensor;
 	public static Accelerometer accelerometer;
 	public static Logger lumberjack;
+	public static ArduinoSerialRead arduinoReader;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -69,12 +63,23 @@ public class Robot extends IterativeRobot {
 			lidarSensor = new LidarSensor(Port.kMXP);
 			lidarSensor.start();
 			accelerometer = new Accelerometer();
+			arduinoReader = new ArduinoSerialRead("/dev/ttyACM0");
 		}
 		catch(Exception e)
 		{
 			lumberjack.dashLogError("Robot", e.getMessage());
 		}
-
+		
+		// Start reading from the Arduino
+		try
+		{
+			//arduinoReader.initialize();
+		}
+		catch(Exception e)
+		{
+			lumberjack.dashLogError("ArduinoReader", e.getMessage());
+		}
+		
 		// instantiate the command used for the autonomous period
 		try 
 		{
@@ -94,6 +99,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putData(usbCamera);
 			SmartDashboard.putData(lidarSensor);
 			SmartDashboard.putData(accelerometer);
+			SmartDashboard.putData(arduinoReader);
 		} 
 		catch (Exception e) 
 		{
