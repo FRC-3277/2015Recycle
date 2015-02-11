@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.TimerTask;
 
+import org.usfirst.frc.team3277.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -23,10 +25,6 @@ public class LidarSensor extends Subsystem implements PIDSource
 	private java.util.Timer updater;
 	private LIDARUpdater task;
 	
-	private final int LIDAR_ADDR = 0x62;
-	private final int LIDAR_CONFIG_REGISTER = 0x00;
-	private final int LIDAR_DISTANCE_REGISTER = 0x8f;
-	
 	static private Logger lumberjack;
 	
 	public void initDefaultCommand() {
@@ -38,7 +36,7 @@ public class LidarSensor extends Subsystem implements PIDSource
 	{
 		lumberjack = new Logger();
 		
-		i2c = new I2C(Port.kMXP, LIDAR_ADDR);
+		i2c = new I2C(Port.kMXP, RobotMap.LIDAR_ADDR);
 		
 		distance = new byte[2];
  
@@ -71,9 +69,9 @@ public class LidarSensor extends Subsystem implements PIDSource
 	
 	// Update distance variable.  See the Quick Start Guide for documentation
 	public void update() {
-		i2c.write(LIDAR_CONFIG_REGISTER, 0x04); // Initiate measurement
+		i2c.write(RobotMap.LIDAR_CONFIG_REGISTER, 0x04); // Initiate measurement
 		Timer.delay(0.04); // Delay for measurement to be taken
-		i2c.read(LIDAR_DISTANCE_REGISTER, 2, distance); // Read in measurement
+		i2c.read(RobotMap.LIDAR_DISTANCE_REGISTER, 2, distance); // Read in measurement
 		Timer.delay(0.01); // Delay to prevent over polling
 	}
 	

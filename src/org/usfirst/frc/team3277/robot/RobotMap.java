@@ -84,9 +84,17 @@ public class RobotMap {
 	public final static int USB_CAMERA_QUALITY = 50;
 	
 	/*
-	 * LIDAR
+	 * LIDAR - DO NOT ALTER!  Derived from documentation.
 	 */
 	//public final static Port LIDAR_CHANNEL;
+	public final static int LIDAR_ADDR = 0x62;
+	public final static int LIDAR_CONFIG_REGISTER = 0x00;
+	public final static int LIDAR_DISTANCE_REGISTER = 0x8f;
+	
+	/*
+	 * Compass - Code mapped to that which is defined in the Arduino Sketch.
+	 */
+	public final static int ARDUINO_ADDR = 0x04;
 	
 	/*************************** END SENSORS *****************************************/
 }

@@ -57,7 +57,6 @@ public class Robot extends IterativeRobot {
 			grabber = new Grabber();
 			usbCamera = new UsbCamera();
 			lidarSensor = new LidarSensor();
-			lidarSensor.start();
 			accelerometer = new Accelerometer();
 			arduinoReader = new ArduinoSerialRead();
 		}
@@ -66,10 +65,20 @@ public class Robot extends IterativeRobot {
 			lumberjack.dashLogError("Robot", e.getMessage());
 		}
 		
+		// Start reading the Lidar Sensor
+		try
+		{
+			lidarSensor.start();
+		}
+		catch (Exception e)
+		{
+			lumberjack.dashLogError("LidarSensor", e.getMessage());
+		}
+		
 		// Start reading from the Arduino
 		try
 		{
-			//arduinoReader.initialize();
+			arduinoReader.start();
 		}
 		catch(Exception e)
 		{
