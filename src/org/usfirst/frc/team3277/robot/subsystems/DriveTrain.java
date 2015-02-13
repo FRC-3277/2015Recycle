@@ -19,12 +19,12 @@ import edu.wpi.first.wpilibj.Gyro;
  */
 public class DriveTrain extends Subsystem {
 	// Subsystem devices
-	public CANTalon LeftFront;
+	private CANTalon LeftFront;
 	@SuppressWarnings("unused")
-	public CANTalon LeftRear;
-	public CANTalon RightFront;
+	private CANTalon LeftRear;
+	private CANTalon RightFront;
 	@SuppressWarnings("unused")
-	public CANTalon RightRear;
+	private CANTalon RightRear;
 	private RobotDrive drive;
 	private Encoder rightEncoder, leftEncoder;
 	GyroSensor gyro;

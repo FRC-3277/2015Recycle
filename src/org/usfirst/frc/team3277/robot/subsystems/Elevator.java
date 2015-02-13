@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Elevator extends Subsystem {
 	// Subsystem devices
-	public CANTalon elevatorMotor;
+	private CANTalon elevatorMotor;
 
 	static private Logger lumberjack;
 

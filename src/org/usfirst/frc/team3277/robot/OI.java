@@ -25,11 +25,9 @@ public class OI {
 	private Joystick controller;
 	
 	// Joystick buttons
-	private JoystickButton buttonGrabberOpen;
-	private JoystickButton buttonGrabberClose;
-	private JoystickButton buttonElevatorUp;
-	private JoystickButton buttonElevatorDown;
-	private JoystickButton auto;
+	private JoystickButton buttonGrabberOpen, 
+	buttonGrabberClose, buttonElevatorUp, 
+	buttonElevatorDown, auto;
 	
 	public static Logger lumberjack;
 
@@ -38,19 +36,20 @@ public class OI {
 		
 		joystick = new Joystick(RobotMap.OPERATOR_INPUT_DEVICE_JOYSTICK);
 		controller = new Joystick(RobotMap.OPERATOR_INPUT_DEVICE_CONTROLLER);
-		/*
-		 * For every physical controller button create a virtual button as a
-		 * failsafe in the event that the device fails and the robot cannot be
-		 * interacted with.
-		 */
-		//SmartDashboard.putData("Elevator Floor", new SetElevatorSetpoint(RobotMap.ELEVATOR_FLOOR));
+		
 		try
 		{
-			//SmartDashboard.putData("Open Grabber", new OpenGrabber());
-			//SmartDashboard.putData("Close Grabber", new CloseGrabber());
-			//SmartDashboard.putData("Elevator Up", new RaiseElevator());
-			//SmartDashboard.putData("Elevator Down", new LowerElevator());
-			//SmartDashboard.putData("Autonomous Mode", new Autonomous());
+			/*
+			 * For every physical controller button create a virtual button as a
+			 * failsafe in the event that the device fails and the robot cannot be
+			 * interacted with.
+			 */
+			//SmartDashboard.putData("Elevator Floor", new SetElevatorSetpoint(RobotMap.ELEVATOR_FLOOR));
+			SmartDashboard.putData("Open Grabber", new OpenGrabber());
+			SmartDashboard.putData("Close Grabber", new CloseGrabber());
+			SmartDashboard.putData("Elevator Up", new RaiseElevator());
+			SmartDashboard.putData("Elevator Down", new LowerElevator());
+			SmartDashboard.putData("Autonomous Mode", new Autonomous());
 		}
 		catch (Exception e)
 		{
@@ -84,10 +83,10 @@ public class OI {
 		{
 			//buttonGrabberOpen.whenPressed(new OpenGrabber());
 			//buttonGrabberOpen.whenReleased(new StopGrabber());
-			buttonGrabberOpen.whileHeld(new OpenGrabberCommandGroup());
+			buttonGrabberOpen.whileHeld(new OpenGrabber());
 			//buttonGrabberClose.whenPressed(new CloseGrabber());
 			//buttonGrabberClose.whenReleased(new StopGrabber());
-			buttonGrabberClose.whileHeld(new CloseGrabberCommandGroup());
+			buttonGrabberClose.whileHeld(new CloseGrabber());
 		}
 		catch (Exception e)
 		{
@@ -99,12 +98,12 @@ public class OI {
 		{
 			//buttonElevatorUp.whenPressed(new RaiseElevator());
 			//buttonElevatorUp.whenReleased(new StopElevator());
-			buttonElevatorUp.whileHeld(new RaiseElevatorCommandGroup());
+			buttonElevatorUp.whileHeld(new RaiseElevator());
 			//buttonElevatorDown.whenPressed(new LowerElevator());
 			//buttonElevatorDown.whenReleased(new StopElevator());
-			buttonElevatorDown.whileHeld(new LowerElevatorCommandGroup());
+			buttonElevatorDown.whileHeld(new LowerElevator());
 			// Autonomous mode
-			//auto.whenPressed(new Autonomous());
+			auto.whenPressed(new Autonomous());
 		}
 		catch (Exception e)
 		{
