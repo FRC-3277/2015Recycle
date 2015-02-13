@@ -16,7 +16,7 @@ import org.usfirst.frc.team3277.robot.subsystems.UsbCamera;
 import org.usfirst.frc.team3277.robot.subsystems.LidarSensor;
 import org.usfirst.frc.team3277.robot.subsystems.Accelerometer;
 import org.usfirst.frc.team3277.robot.subsystems.Logger;
-import org.usfirst.frc.team3277.robot.subsystems.ArduinoSerialRead;
+import org.usfirst.frc.team3277.robot.subsystems.CompassSensor;
 
 // Commands to include
 import org.usfirst.frc.team3277.robot.commands.Autonomous;
@@ -37,10 +37,10 @@ public class Robot extends IterativeRobot {
 	public static Elevator elevator;
 	public static Grabber grabber;
 	public static UsbCamera usbCamera;
-	public static LidarSensor lidarSensor;
+	//public static LidarSensor lidarSensor;
 	public static Accelerometer accelerometer;
 	public static Logger lumberjack;
-	public static ArduinoSerialRead arduinoReader;
+	//public static CompassSensor compassSensor;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -52,13 +52,69 @@ public class Robot extends IterativeRobot {
 		try
 		{
 			operatorInterface = new OI();
+		}
+		catch(Exception e)
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
+		
+		try
+		{
 			drivetrain = new DriveTrain();
+		}
+		catch(Exception e)
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
+		
+		try
+		{
 			elevator = new Elevator();
+		}
+		catch(Exception e)
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
+		
+		try
+		{
 			grabber = new Grabber();
+		}
+		catch(Exception e)
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
+		
+		try
+		{
 			usbCamera = new UsbCamera();
-			lidarSensor = new LidarSensor();
+		}
+		catch(Exception e)
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
+		
+		try
+		{
+			//lidarSensor = new LidarSensor();
+		}
+		catch(Exception e)
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
+		
+		try
+		{
 			accelerometer = new Accelerometer();
-			arduinoReader = new ArduinoSerialRead();
+		}
+		catch(Exception e)
+		{
+			lumberjack.dashLogError("Robot", e.getMessage());
+		}
+		
+		try
+		{
+			//compassSensor = new CompassSensor();
 		}
 		catch(Exception e)
 		{
@@ -68,7 +124,7 @@ public class Robot extends IterativeRobot {
 		// Start reading the Lidar Sensor
 		try
 		{
-			lidarSensor.start();
+			//lidarSensor.start();
 		}
 		catch (Exception e)
 		{
@@ -78,11 +134,11 @@ public class Robot extends IterativeRobot {
 		// Start reading from the Arduino
 		try
 		{
-			arduinoReader.start();
+			//compassSensor.start();
 		}
 		catch(Exception e)
 		{
-			lumberjack.dashLogError("ArduinoReader", e.getMessage());
+			lumberjack.dashLogError("compassSensor", e.getMessage());
 		}
 		
 		// instantiate the command used for the autonomous period
@@ -102,9 +158,9 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putData(elevator);
 			SmartDashboard.putData(grabber);
 			SmartDashboard.putData(usbCamera);
-			SmartDashboard.putData(lidarSensor);
+			//SmartDashboard.putData(lidarSensor);
 			SmartDashboard.putData(accelerometer);
-			SmartDashboard.putData(arduinoReader);
+			//SmartDashboard.putData(compassSensor);
 		} 
 		catch (Exception e) 
 		{
@@ -200,10 +256,11 @@ public class Robot extends IterativeRobot {
         try 
         {
 			elevator.dashLog();
+			grabber.dashLog();
 			drivetrain.dashLog();
-			lidarSensor.dashLog();
+			//lidarSensor.dashLog();
 			accelerometer.dashLog();
-			arduinoReader.dashLog();
+			//compassSensor.dashLog();
 		} 
         catch (Exception e) 
         {

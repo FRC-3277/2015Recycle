@@ -27,7 +27,7 @@ public class Talon extends Subsystem {
     
     public static CANTalon initTalon(int motor) 
     {
-    	boolean bEnableBrakeMode = true;
+    	boolean bEnableBrakeMode = false;
         int maxRetries = 0;
         CANTalon talon = null;
         

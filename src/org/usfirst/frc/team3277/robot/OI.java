@@ -9,6 +9,9 @@ import org.usfirst.frc.team3277.robot.RobotMap;
 // Make the commands available
 import org.usfirst.frc.team3277.robot.commands.*;
 
+// Subsystem
+import org.usfirst.frc.team3277.robot.subsystems.Logger;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -20,8 +23,19 @@ public class OI {
 	// Driver input(s)
 	private Joystick joystick;
 	private Joystick controller;
+	
+	// Joystick buttons
+	private JoystickButton buttonGrabberOpen;
+	private JoystickButton buttonGrabberClose;
+	private JoystickButton buttonElevatorUp;
+	private JoystickButton buttonElevatorDown;
+	private JoystickButton auto;
+	
+	public static Logger lumberjack;
 
 	public OI() {
+		lumberjack = new Logger();
+		
 		joystick = new Joystick(RobotMap.OPERATOR_INPUT_DEVICE_JOYSTICK);
 		controller = new Joystick(RobotMap.OPERATOR_INPUT_DEVICE_CONTROLLER);
 		/*
@@ -30,36 +44,72 @@ public class OI {
 		 * interacted with.
 		 */
 		//SmartDashboard.putData("Elevator Floor", new SetElevatorSetpoint(RobotMap.ELEVATOR_FLOOR));
-		//SmartDashboard.putData("Open Grabber", new OpenGrabber());
-		//SmartDashboard.putData("Close Grabber", new CloseGrabber());
-		//SmartDashboard.putdata("Elevator Up", new RaiseElevator());
-		//SmartDashboard.putdata("Elevator Down", new LowerElevator());
-		//SmartDashboard.putData("Autonomous Mode", new Autonomous());
+		try
+		{
+			//SmartDashboard.putData("Open Grabber", new OpenGrabber());
+			//SmartDashboard.putData("Close Grabber", new CloseGrabber());
+			//SmartDashboard.putData("Elevator Up", new RaiseElevator());
+			//SmartDashboard.putData("Elevator Down", new LowerElevator());
+			//SmartDashboard.putData("Autonomous Mode", new Autonomous());
+		}
+		catch (Exception e)
+		{
+			lumberjack.dashLogError("OI", e.getMessage());
+		}
 
 		// Button creation grouped by subsystem
-		// Grabber buttons
-		JoystickButton buttonGrabberOpen = new JoystickButton(joystick,
-				RobotMap.BUTTON_GRABBER_OPEN);
-		JoystickButton buttonGrabberClose = new JoystickButton(joystick,
-				RobotMap.BUTTON_GRABBER_CLOSE);
-		// Elevator buttons
-		JoystickButton buttonElevatorUp = new JoystickButton(joystick,
-				RobotMap.BUTTON_ELEVATOR_UP);
-		JoystickButton buttonElevatorDown = new JoystickButton(joystick,
-				RobotMap.BUTTON_ELEVATOR_DOWN);
-		JoystickButton auto = new JoystickButton(joystick,
-				RobotMap.BUTTON_AUTONOMOUS_MODE_ENABLE);
-
+		try
+		{
+			// Grabber buttons
+			buttonGrabberOpen = new JoystickButton(joystick,
+					RobotMap.BUTTON_GRABBER_OPEN);
+			buttonGrabberClose = new JoystickButton(joystick,
+					RobotMap.BUTTON_GRABBER_CLOSE);
+			// Elevator buttons
+			buttonElevatorUp = new JoystickButton(joystick,
+					RobotMap.BUTTON_ELEVATOR_UP);
+			buttonElevatorDown = new JoystickButton(joystick,
+					RobotMap.BUTTON_ELEVATOR_DOWN);
+			// Autonomous button
+			auto = new JoystickButton(joystick,
+					RobotMap.BUTTON_AUTONOMOUS_MODE_ENABLE);
+		}
+		catch (Exception e)
+		{
+			lumberjack.dashLogError("OI", e.getMessage());
+		}
 		// Connect the buttons to commands
 		// Grabber listeners
-		//buttonGrabberOpen.whenPressed(new OpenGrabber());
-		//buttonGrabberClose.whenPressed(new CloseGrabber());
+		try
+		{
+			//buttonGrabberOpen.whenPressed(new OpenGrabber());
+			//buttonGrabberOpen.whenReleased(new StopGrabber());
+			buttonGrabberOpen.whileHeld(new OpenGrabberCommandGroup());
+			//buttonGrabberClose.whenPressed(new CloseGrabber());
+			//buttonGrabberClose.whenReleased(new StopGrabber());
+			buttonGrabberClose.whileHeld(new CloseGrabberCommandGroup());
+		}
+		catch (Exception e)
+		{
+			lumberjack.dashLogError("OI", e.getMessage());
+		}
+		
 		// Elevator listeners
-		// TODO: No idea how the elevator to button interaction will take place.
-		//buttonElevatorUp.whenPressed(new RaiseElevator());
-		//buttonElevatorDown.whenPressed(new LowerElevator());
-		// Autonomous mode
-		//auto.whenPressed(new Autonomous());
+		try
+		{
+			//buttonElevatorUp.whenPressed(new RaiseElevator());
+			//buttonElevatorUp.whenReleased(new StopElevator());
+			buttonElevatorUp.whileHeld(new RaiseElevatorCommandGroup());
+			//buttonElevatorDown.whenPressed(new LowerElevator());
+			//buttonElevatorDown.whenReleased(new StopElevator());
+			buttonElevatorDown.whileHeld(new LowerElevatorCommandGroup());
+			// Autonomous mode
+			//auto.whenPressed(new Autonomous());
+		}
+		catch (Exception e)
+		{
+			lumberjack.dashLogError("OI", e.getMessage());
+		}
 	}
 
 	public Joystick getController() {
@@ -68,5 +118,20 @@ public class OI {
 
 	public Joystick getJoystick() {
 		return joystick;
+	}
+	
+	public double getJoystickX()
+	{
+		return joystick.getX();
+	}
+	
+	public double getJoystickY()
+	{
+		return joystick.getY();
+	}
+	
+	public double getJoystickTwist()
+	{
+		return joystick.getTwist();
 	}
 }

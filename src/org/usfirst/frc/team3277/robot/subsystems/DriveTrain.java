@@ -4,7 +4,7 @@ import org.usfirst.frc.team3277.robot.RobotMap;
 import org.usfirst.frc.team3277.robot.commands.DriveWithJoystick;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.MotorSafety;
@@ -19,28 +19,27 @@ import edu.wpi.first.wpilibj.Gyro;
  */
 public class DriveTrain extends Subsystem {
 	// Subsystem devices
-	private CANJaguar LeftFront;
+	public CANTalon LeftFront;
 	@SuppressWarnings("unused")
-	private CANJaguar LeftRear;
-	private CANJaguar RightFront;
+	public CANTalon LeftRear;
+	public CANTalon RightFront;
 	@SuppressWarnings("unused")
-	private CANJaguar RightRear;
+	public CANTalon RightRear;
 	private RobotDrive drive;
 	private Encoder rightEncoder, leftEncoder;
 	GyroSensor gyro;
-	
+
 	// Safety
 	MotorSafety motorSafety;
 	MotorSafetyHelper watchdog;
-	
+
 	static private Logger lumberjack;
-	
-    public void initDefaultCommand() 
-    {
-    	setDefaultCommand(new DriveWithJoystick());
-    }
-    
-    public DriveTrain()
+
+	public void initDefaultCommand() {
+		setDefaultCommand(new DriveWithJoystick());
+	}
+
+	public DriveTrain()
     {
     	lumberjack = new Logger();
     	
@@ -56,49 +55,53 @@ public class DriveTrain extends Subsystem {
     	
     	try 
     	{
-			LeftFront = Jaguar.initJag(RobotMap.FRONT_LEFT_DRIVE);
+			LeftFront = Talon.initTalon(RobotMap.FRONT_LEFT_DRIVE);
 			LeftFront.enableControl();
+	
 		} 
     	catch (Exception e) 
     	{
-    		lumberjack.dashLogError("DriveTrain", "LeftFront Jag Failure: " + e.getMessage());
+    		lumberjack.dashLogError("DriveTrain", "LeftFront motor controller Failure: " + e.getMessage());
 		}
     	
     	try 
     	{
-    		LeftRear = Jaguar.initJag(RobotMap.REAR_LEFT_DRIVE);
+    		LeftRear = Talon.initTalon(RobotMap.REAR_LEFT_DRIVE);
     		LeftRear.enableControl();
+    		
 		} 
     	catch (Exception e) 
     	{
-    		lumberjack.dashLogError("DriveTrain", "LeftRear Jag Failure: " + e.getMessage());
+    		lumberjack.dashLogError("DriveTrain", "LeftRear motor controller Failure: " + e.getMessage());
 		}
     	
     	try 
     	{
-			RightFront = Jaguar.initJag(RobotMap.FRONT_RIGHT_DRIVE);
+			RightFront = Talon.initTalon(RobotMap.FRONT_RIGHT_DRIVE);
 			RightFront.enableControl();
-			// RightRear = Jaguar.initJag(RIGHT_REAR_JAG);
 		} 
     	catch (Exception e) 
     	{
-    		lumberjack.dashLogError("DriveTrain", "RightFront Jag Failure: " + e.getMessage());
+    		lumberjack.dashLogError("DriveTrain", "RightFront motor controller Failure: " + e.getMessage());
 		}
     	
     	try 
     	{
-			RightRear = Jaguar.initJag(RobotMap.REAR_RIGHT_DRIVE);
+			RightRear = Talon.initTalon(RobotMap.REAR_RIGHT_DRIVE);
 			RightRear.enableControl();
 		} 
     	catch (Exception e) 
     	{
-    		lumberjack.dashLogError("DriveTrain", "RightRear Jag Failure: " + e.getMessage());
+    		lumberjack.dashLogError("DriveTrain", "RightRear motor controller Failure: " + e.getMessage());
 		}
     	
     	try 
     	{
     		// Change the robot drive frame type here by adding or removing expected motor controllers.  Leave the declaration of unused variables be.
-			this.drive = new RobotDrive(LeftFront, RightFront);
+			this.drive = new RobotDrive(LeftFront, LeftRear, RightFront, RightRear);
+			// For the mechanum drive
+			this.drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+			this.drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 		} 
     	catch (Exception e) 
     	{
@@ -110,48 +113,59 @@ public class DriveTrain extends Subsystem {
     	watchdog = new MotorSafetyHelper(motorSafety);
 		watchdog.setExpiration(RobotMap.DRIVE_TRAIN_DEFAULT_DISABLE_TIMEOUT);
     }
-	
+
 	/**
-	 * @param joystick joystick to use as the input for tank drive.  
+	 * @param joystick
+	 *            joystick to use as the input for tank drive.
 	 */
 	public void tankDrive(Joystick joystick) {
 		drive.tankDrive(joystick.getY(), joystick.getRawAxis(4));
 	}
-	
-	public void arcadeDrive(Joystick joystick)
-	{
-		drive.arcadeDrive(joystick.getY(),-joystick.getTwist());
+
+	public void arcadeDrive(Joystick joystick) {
+		drive.arcadeDrive(joystick.getY(), -joystick.getTwist());
 		gyro.dashLog();
 	}
-	
+
+	public void mecanumDrive(double x, double y, double twist, double sensitivity) {
+		if (sensitivity > 1.0) {
+			sensitivity = 1.0;
+		}
+		if (sensitivity < 0.0) {
+			sensitivity = 0.0;
+		}
+		this.drive.mecanumDrive_Cartesian(x * sensitivity, y * sensitivity,
+				twist * sensitivity, 0);
+	}
+
 	/**
 	 * Stop the drivetrain from moving.
 	 */
-	public void stop() 
-	{
+	public void stop() {
 		drive.tankDrive(0, 0);
 	}
-	
+
 	/**
-	 * @return The encoder getting the distance and speed of left side of the drivetrain.
+	 * @return The encoder getting the distance and speed of left side of the
+	 *         drivetrain.
 	 */
 	public Encoder getLeftEncoder() {
 		return leftEncoder;
 	}
 
 	/**
-	 * @return The encoder getting the distance and speed of right side of the drivetrain.
+	 * @return The encoder getting the distance and speed of right side of the
+	 *         drivetrain.
 	 */
 	public Encoder getRightEncoder() {
 		return rightEncoder;
 	}
-    
-    /**
-	 * The log method puts information of interest from the DriveTrain subsystem to the SmartDashboard.
-	 */
-    public void dashLog() 
-    {
-        //SmartDashboard.putData("Key", value);
-    }
-}
 
+	/**
+	 * The log method puts information of interest from the DriveTrain subsystem
+	 * to the SmartDashboard.
+	 */
+	public void dashLog() {
+		// SmartDashboard.putData("Key", value);
+	}
+}
