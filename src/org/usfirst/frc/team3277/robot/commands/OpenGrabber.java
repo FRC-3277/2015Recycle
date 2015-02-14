@@ -7,35 +7,42 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OpenGrabber extends Command {
+public class OpenGrabber extends Command
+{
 
-    public OpenGrabber() {
-    	requires(Robot.grabber);
-    }
+	public OpenGrabber()
+	{
+		requires(Robot.grabber);
+	}
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
+	// Called just before this Command runs the first time
+	protected void initialize()
+	{
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.grabber.activelyOpenGrabber();
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute()
+	{
+		Robot.grabber.activelyOpenGrabber();
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished()
+	{
+		return false;
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	Robot.grabber.stopGrabber();
-    }
+	// Called once after isFinished returns true
+	protected void end()
+	{
+		Robot.grabber.stopGrabber();
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	// called when whileHeld ends.
-    	Robot.grabber.stopGrabber();
-    }
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted()
+	{
+		// called when whileHeld ends.
+		Robot.grabber.stopGrabber();
+	}
 }

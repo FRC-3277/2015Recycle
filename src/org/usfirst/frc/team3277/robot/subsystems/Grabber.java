@@ -10,53 +10,58 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * The grabber is the subsystem that interacts with the tote(s).
  */
-public class Grabber extends Subsystem {
+public class Grabber extends Subsystem
+{
 	// Subsystem devices
 	public CANTalon grabberMotor;
 
 	static private Logger lumberjack;
 
-	public void initDefaultCommand() {
-		
+	public void initDefaultCommand()
+	{
+
 	}
 
-	public Grabber() {
+	public Grabber()
+	{
 		lumberjack = new Logger();
-		
-		try 
-    	{
+
+		try
+		{
 			grabberMotor = Talon.initTalon(RobotMap.GRABBER_MOTOR);
 			// Override the default behavior which is to enable.
 			grabberMotor.enableBrakeMode(true);
 			grabberMotor.enableControl();
-	
-		} 
-    	catch (Exception e) 
-    	{
-    		lumberjack.dashLogError("Grabber", "Motor controller failure: " + e.getMessage());
+
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("Grabber", "Motor controller failure: " + e.getMessage());
 		}
 	}
-	
+
 	public void activelyOpenGrabber()
 	{
-		grabberMotor.set(RobotMap.GRABBER_MOTOR_SPEED);
-	}
-	
-	public void activelyCloseGrabber()
-	{
+		// - = Open
 		grabberMotor.set(-RobotMap.GRABBER_MOTOR_SPEED);
 	}
-	
+
+	public void activelyCloseGrabber()
+	{
+		// + = Close
+		grabberMotor.set(RobotMap.GRABBER_MOTOR_SPEED);
+	}
+
 	public void stopGrabber()
 	{
 		grabberMotor.set(0);
 	}
 
 	/**
-	 * The log method puts information of interest from the Grabber subsystem to the SmartDashboard.
+	 * The log method puts information of interest from the Grabber subsystem to
+	 * the SmartDashboard.
 	 */
-    public void dashLog() 
-    {
-    	//lumberjack.dashLogNumber("Grabber", );
-    }
+	public void dashLog()
+	{
+		// lumberjack.dashLogNumber("Grabber", );
+	}
 }

@@ -8,40 +8,49 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class UsbCamera extends Subsystem {
+public class UsbCamera extends Subsystem
+{
 	// Subsystem devices
 	CameraServer server;
-	
+
 	static private Logger lumberjack;
 
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
-    
-    public UsbCamera()
-    {
-    	lumberjack = new Logger();
-    	
-    	try
-    	{
-	    	server = CameraServer.getInstance();
-	        server.setQuality(RobotMap.USB_CAMERA_QUALITY);
-	        //the camera name (ex "cam0") can be found through the roborio web interface
-	        server.startAutomaticCapture(RobotMap.USB_CAMERA_INSTANCE);
-    	}
-    	catch (Exception e)
-    	{
-    		lumberjack.dashLogError("UsbCamera", e.getMessage());
-    	}
-    }
-    
-    /**
-	 * The log method puts information of interest from the Usb Camera subsystem to the SmartDashboard.
-	 */
-    public void dashLog() 
-    {
-    	//lumberjack.dashLogNumber("UsbCamera", );
-    }
-}
+	public void initDefaultCommand()
+	{
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
 
+	public UsbCamera()
+	{
+		lumberjack = new Logger();
+
+		try
+		{
+			server = CameraServer.getInstance();
+			server.setQuality(RobotMap.USB_CAMERA_QUALITY);
+			// the camera name (ex "cam0") can be found through the roborio web
+			// interface
+			try
+			{
+				server.startAutomaticCapture(RobotMap.USB_CAMERA_INSTANCE);
+			} catch (Exception e)
+			{
+				server.startAutomaticCapture(RobotMap.USB_CAMERA_WRONG_WIRING);
+				lumberjack.dashLogError("UsbCamera", "Camera plugged into undesired port error.  Alternate port attempted used.  " + e.getMessage());
+			}
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("UsbCamera", e.getMessage());
+		}
+	}
+
+	/**
+	 * The log method puts information of interest from the Usb Camera subsystem
+	 * to the SmartDashboard.
+	 */
+	public void dashLog()
+	{
+		// lumberjack.dashLogNumber("UsbCamera", );
+	}
+}
