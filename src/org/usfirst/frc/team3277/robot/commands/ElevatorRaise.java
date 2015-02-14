@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class StopElevator extends Command
+public class ElevatorRaise extends Command
 {
 
-	public StopElevator()
+	public ElevatorRaise()
 	{
 		requires(Robot.elevator);
 	}
@@ -23,7 +23,7 @@ public class StopElevator extends Command
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute()
 	{
-		Robot.elevator.stopMotor();
+		Robot.elevator.activeRaiseElevator();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -42,5 +42,6 @@ public class StopElevator extends Command
 	// subsystems is scheduled to run
 	protected void interrupted()
 	{
+		Robot.elevator.stopMotor();
 	}
 }

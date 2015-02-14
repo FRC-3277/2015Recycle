@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Logger
 {
+	private String stringMostRecentError = "";
+	private boolean bStringErrorSet = false;
+	
 	public Logger()
 	{
 
@@ -43,11 +46,27 @@ public class Logger
 	/**
 	 * Log errors to the SmartDashboard. Only one error will be represented at a
 	 * time which may mask multiple errors. Particularly useful in cases where
-	 * logging in catch blocks.
+	 * logging in catch blocks.  Logic added to prevent copious amounts of repeating 
+	 * errors for flood control.
 	 */
 	public void dashLogError(String subsystem, String message)
 	{
-		SmartDashboard.putString("Error" + subsystem, message);
-		System.out.println(message);
+		if (bStringErrorSet)
+		{
+			// Flood control!
+			if (message != stringMostRecentError)
+			{
+				stringMostRecentError = message;
+				SmartDashboard.putString("Error" + subsystem, message);
+				System.out.println(message);
+			}
+		}
+		else
+		{
+			bStringErrorSet = true;
+			stringMostRecentError = message;
+			SmartDashboard.putString("Error" + subsystem, message);
+			System.out.println(message);
+		}
 	}
 }

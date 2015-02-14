@@ -42,7 +42,7 @@ public class Elevator extends Subsystem
 	 */
 	public void activeRaiseElevator()
 	{
-		elevatorMotor.set(RobotMap.ELEVATOR_MOTOR_SPEED);
+		elevatorMotor.set(RobotMap.ELEVATOR_MOTOR_UP_SPEED);
 	}
 
 	/**
@@ -50,7 +50,12 @@ public class Elevator extends Subsystem
 	 */
 	public void activeLowerElevator()
 	{
-		elevatorMotor.set(-RobotMap.ELEVATOR_MOTOR_SPEED);
+		elevatorMotor.set(-RobotMap.ELEVATOR_MOTOR_DOWN_SPEED);
+	}
+	
+	public void activeHoldElevator()
+	{
+		elevatorMotor.set(RobotMap.ELEVATOR_MOTOR_HOLD_SPEED);
 	}
 
 	public void stopMotor()

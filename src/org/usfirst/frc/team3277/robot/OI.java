@@ -27,7 +27,7 @@ public class OI
 	private Joystick controller;
 
 	// Joystick buttons
-	private JoystickButton buttonGrabberOpen, buttonGrabberClose, buttonElevatorUp, buttonElevatorDown, auto;
+	private JoystickButton buttonGrabberOpen, buttonGrabberClose, buttonElevatorUp, buttonElevatorDown, buttonElevatorHold;
 
 	public static Logger lumberjack;
 
@@ -45,7 +45,7 @@ public class OI
 			 * failsafe in the event that the device fails and the robot cannot
 			 * be interacted with.
 			 */
-			SmartDashboard.putData("Open Grabber", new OpenGrabber());
+			SmartDashboard.putData("Open Grabber", new GrabberOpen());
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "SmartDashboard Open Grabber Error: " + e.getMessage());
@@ -53,21 +53,21 @@ public class OI
 
 		try
 		{
-			SmartDashboard.putData("Close Grabber", new CloseGrabber());
+			SmartDashboard.putData("Close Grabber", new GrabberClose());
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "SmartDashboard Close Grabber Error: " + e.getMessage());
 		}
 		try
 		{
-			SmartDashboard.putData("Elevator Up", new RaiseElevator());
+			SmartDashboard.putData("Elevator Up", new ElevatorRaise());
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "SmartDashboard Raise Elevator Error: " + e.getMessage());
 		}
 		try
 		{
-			SmartDashboard.putData("Elevator Down", new LowerElevator());
+			SmartDashboard.putData("Elevator Down", new ElevatorLower());
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "SmartDashboard Lower Elevator Error: " + e.getMessage());
@@ -83,6 +83,7 @@ public class OI
 			// Elevator buttons
 			buttonElevatorUp = new JoystickButton(joystick, RobotMap.BUTTON_ELEVATOR_UP);
 			buttonElevatorDown = new JoystickButton(joystick, RobotMap.BUTTON_ELEVATOR_DOWN);
+			buttonElevatorHold = new JoystickButton(joystick, RobotMap.BUTTON_ELEVATOR_HOLD);
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "Button Mapping Error: " + e.getMessage());
@@ -92,14 +93,15 @@ public class OI
 		// Grabber listeners
 		try
 		{
-			buttonGrabberOpen.whileHeld(new OpenGrabber());
+			buttonGrabberOpen.whileHeld(new GrabberOpen());
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "Grabber Button Open Grabber Listener Error: " + e.getMessage());
 		}
+		
 		try
 		{
-			buttonGrabberClose.whileHeld(new CloseGrabber());
+			buttonGrabberClose.whileHeld(new GrabberClose());
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "Grabber Button Close Grabber Listener Error: " + e.getMessage());
@@ -108,17 +110,26 @@ public class OI
 		// Elevator listeners
 		try
 		{
-			buttonElevatorUp.whileHeld(new RaiseElevator());
+			buttonElevatorUp.whileHeld(new ElevatorRaise());
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "Elevator Button Raise Listener Error: " + e.getMessage());
 		}
+		
 		try
 		{
-			buttonElevatorDown.whileHeld(new LowerElevator());
+			buttonElevatorDown.whileHeld(new ElevatorLower());
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "Elevator Button Lower Listener Error: " + e.getMessage());
+		}
+		
+		try
+		{
+			buttonElevatorHold.whileHeld(new ElevatorHold());
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("OI", "Elevator Button Hold Listener Error: " + e.getMessage());
 		}
 	}
 

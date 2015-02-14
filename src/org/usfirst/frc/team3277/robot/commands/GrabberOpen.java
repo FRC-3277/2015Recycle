@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LowerElevator extends Command
+public class GrabberOpen extends Command
 {
 
-	public LowerElevator()
+	public GrabberOpen()
 	{
-		requires(Robot.elevator);
+		requires(Robot.grabber);
 	}
 
 	// Called just before this Command runs the first time
@@ -23,7 +23,7 @@ public class LowerElevator extends Command
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute()
 	{
-		Robot.elevator.activeLowerElevator();
+		Robot.grabber.activelyOpenGrabber();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -35,13 +35,14 @@ public class LowerElevator extends Command
 	// Called once after isFinished returns true
 	protected void end()
 	{
-		Robot.elevator.stopMotor();
+		Robot.grabber.stopGrabber();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted()
 	{
-		Robot.elevator.stopMotor();
+		// called when whileHeld ends.
+		Robot.grabber.stopGrabber();
 	}
 }

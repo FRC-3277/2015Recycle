@@ -36,12 +36,19 @@ public class UsbCamera extends Subsystem
 				server.startAutomaticCapture(RobotMap.USB_CAMERA_INSTANCE);
 			} catch (Exception e)
 			{
-				server.startAutomaticCapture(RobotMap.USB_CAMERA_WRONG_WIRING);
 				lumberjack.dashLogError("UsbCamera", "Camera plugged into undesired port error.  Alternate port attempted used.  " + e.getMessage());
+				try
+				{
+					server.startAutomaticCapture(RobotMap.USB_CAMERA_WRONG_WIRING);
+				}
+				catch (Exception err)
+				{
+					lumberjack.dashLogError("UsbCamera", "Camera Fatal Error: " + err.getMessage());
+				}
 			}
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("UsbCamera", e.getMessage());
+			lumberjack.dashLogError("UsbCamera", "Camera Fatal Error: " + e.getMessage());
 		}
 	}
 

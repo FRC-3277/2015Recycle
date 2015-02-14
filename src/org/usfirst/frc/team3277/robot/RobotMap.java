@@ -45,7 +45,7 @@ public class RobotMap
 	/*
 	 * Set the speed of the elevator motor.
 	 */
-	public final static double ELEVATOR_MOTOR_SPEED = 1.0;
+	public final static double ELEVATOR_MOTOR_UP_SPEED = 1.0, ELEVATOR_MOTOR_DOWN_SPEED = 0.7, ELEVATOR_MOTOR_HOLD_SPEED = 0.15;
 
 	/*
 	 * Elevator Motors
@@ -55,19 +55,19 @@ public class RobotMap
 	/*
 	 * Elevator joystick buttons
 	 */
-	public final static int BUTTON_ELEVATOR_UP = 10, BUTTON_ELEVATOR_DOWN = 12;
+	public final static int BUTTON_ELEVATOR_UP = 8, BUTTON_ELEVATOR_HOLD = 10, BUTTON_ELEVATOR_DOWN = 12;
 
 	/*
 	 * Grabber motor
 	 */
 	public final static int GRABBER_MOTOR = 6;
 
-	public final static double GRABBER_MOTOR_SPEED = 0.2;
+	public final static double GRABBER_MOTOR_SPEED = 0.9;
 
 	/*
 	 * Grabber joystick buttons
 	 */
-	public final static int BUTTON_GRABBER_OPEN = 7, BUTTON_GRABBER_CLOSE = 8;
+	public final static int BUTTON_GRABBER_OPEN = 3, BUTTON_GRABBER_CLOSE = 4;
 
 	/*
 	 * Autonomous mode joystick button
@@ -87,11 +87,12 @@ public class RobotMap
 	 */
 	public final static String USB_CAMERA_INSTANCE = "cam0";
 	/*
-	 *  Failover in case the wrong USB port was selected since the camera is critical and also failure
-	 *  to fire up the camera will result in the bot to fail.
+	 * Failover in case the wrong USB port was selected since the camera is
+	 * critical and also failure to fire up the camera will result in the bot to
+	 * fail.
 	 */
 	public final static String USB_CAMERA_WRONG_WIRING = "cam1";
-	
+
 	public final static int USB_CAMERA_QUALITY = 50;
 
 	/*
@@ -134,6 +135,18 @@ public class RobotMap
 
 	// Sensor type
 	public final static int SENSOR_TYPE_MAGNETIC_FIELD = (2);
+
+	/*
+	 * Critical to correct/calibrate this for each competition. Failure to do so
+	 * will result in Autonomous mode fireworks.
+	 * 
+	 * The variable works only when assigned values 0 - 360. 0 and 360 should be
+	 * the same value which is magnetic north. (Need to verify that magnetic
+	 * north is the value and not true north). The reason for this value is is
+	 * to have some means of waypoint to reference against throughout the game.
+	 */
+	public final static int COMPASS_ALLIANCE_WALL_HEADING_WAYPOINT = 0;
+
 	/*
 	 * End Compass section
 	 */
