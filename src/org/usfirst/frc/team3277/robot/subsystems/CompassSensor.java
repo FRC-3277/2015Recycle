@@ -41,6 +41,8 @@ public class CompassSensor extends Subsystem
 	{
 		lumberjack = new Logger();
 
+		i2c = new I2C(Port.kMXP, RobotMap.HMC5883_ADDRESS_MAG);
+		
 		task = new CompassUpdater();
 		updater = new java.util.Timer();
 
@@ -59,11 +61,9 @@ public class CompassSensor extends Subsystem
 	 * @brief Abstract away platform differences in Arduino wire library
 	 */
 	/**************************************************************************/
-	private void write8(byte address, byte reg, byte value)
+	private void write8(byte reg, byte value)
 	{
-		i2c = new I2C(Port.kMXP, address);
 		i2c.write(reg, value);
-		i2c.free();
 	}
 
 	/**************************************************************************/
@@ -97,8 +97,7 @@ public class CompassSensor extends Subsystem
 			byte dataRead[] = null;
 
 			// Read the magnetometer
-			i2c = new I2C(Port.kMXP, RobotMap.HMC5883_ADDRESS_MAG);
-			i2c.write(RobotMap.HMC5883_ADDRESS_MAG, RobotMap.HMC5883_REGISTER_MAG_OUT_X_H_M);
+			i2c.write(RobotMap.HMC5883_REGISTER_MAG_OUT_X_H_M, 0x80);
 			i2c.read((byte) RobotMap.HMC5883_ADDRESS_MAG, (byte) 6, dataRead);
 			// Wait around until enough data is available
 			// while (Wire.available() < 6);
@@ -141,7 +140,7 @@ public class CompassSensor extends Subsystem
 		i2c = new I2C(Port.kMXP, RobotMap.HMC5883_ADDRESS_MAG);
 
 		// Enable the magnetometer
-		write8(RobotMap.HMC5883_ADDRESS_MAG, RobotMap.HMC5883_REGISTER_MAG_MR_REG_M, (byte) 0x00);
+		write8(RobotMap.HMC5883_REGISTER_MAG_MR_REG_M, (byte) 0x00);
 
 		// Set the gain to a known level
 		setMagGain(RobotMap.HMC5883_MAGGAIN_1_3);
@@ -160,7 +159,7 @@ public class CompassSensor extends Subsystem
 	{
 		try
 		{
-			write8(RobotMap.HMC5883_ADDRESS_MAG, RobotMap.HMC5883_REGISTER_MAG_CRB_REG_M, (byte) gain);
+			write8(RobotMap.HMC5883_REGISTER_MAG_CRB_REG_M, (byte) gain);
 
 			_magGain = gain;
 

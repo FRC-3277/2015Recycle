@@ -31,6 +31,34 @@ public class RobotMap
 	 */
 	public final static int FRONT_LEFT_DRIVE = 1, FRONT_RIGHT_DRIVE = 2, REAR_LEFT_DRIVE = 3, REAR_RIGHT_DRIVE = 4;
 
+	/*
+	 * Ordered as a book is read front to back left to right.
+	 */
+	public static class Encoders {
+		public static final int FRONT_LEFT_DRIVE_A = 10;
+		public static final int FRONT_LEFT_DRIVE_B = 11;
+		public static final int FRONT_RIGHT_DRIVE_A = 12;
+		public static final int FRONT_RIGHT_DRIVE_B = 13;
+		public static final int REAR_LEFT_DRIVE_A = 14;
+		public static final int REAR_LEFT_DRIVE_B = 15;
+		public static final int REAR_RIGHT_DRIVE_A = 16;
+		public static final int REAR_RIGHT_DRIVE_B = 17;
+		/* Visually presented calculation for human eyes :)
+		 *  5.95:1 gearbox ratio
+		 *  1 revolution of the motor shaft = 1440 pulses by way of the encoder.
+		 *  Tire size = 8 inches
+		 *  25.13272 = Circumference
+		 *  
+		 *  We be metric!  Not crashing into mars with this bot :)
+		 *  http://www.cnn.com/TECH/space/9909/30/mars.metric.02/
+		 *  
+		 *  Units of measurement is cm.
+		 */
+		public static final double DISTANCE_TRAVELLED_PER_PULSE = (25.13272/(5.95*1440)*2.54);
+		
+		
+	}
+	
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
