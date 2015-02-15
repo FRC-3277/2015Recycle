@@ -135,7 +135,7 @@ public class RobotMap
 	 * Compass - Code mapped to that which is defined in the Arduino Sketch.
 	 */
 	// I2C ADDRESS/BITS
-	public final static int HMC5883_ADDRESS_MAG = 0x1E; //(0x3C >> 1); // 0011110x
+	public final static int HMC5883_ADDRESS_MAG = 0x3C; //(0x3C >> 1); // 0011110x
 
 	// REGISTERS
 	public final static int HMC5883_REGISTER_MAG_CRA_REG_M = 0x00, HMC5883_REGISTER_MAG_CRB_REG_M = 0x01,

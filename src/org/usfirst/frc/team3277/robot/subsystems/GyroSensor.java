@@ -34,8 +34,6 @@ public class GyroSensor extends Subsystem
 
 	public GyroSensor(int channel, double sensitivity)
 	{
-		super();
-
 		// Configure gyro
 		gyro = new Gyro(channel);
 		if (Robot.isReal())

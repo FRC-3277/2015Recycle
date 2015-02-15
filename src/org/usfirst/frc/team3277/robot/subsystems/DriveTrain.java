@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
 
 /**
@@ -23,11 +22,15 @@ public class DriveTrain extends Subsystem
 {
 	// Subsystem devices
 	private CANTalon frontLeftTalon;
+	public double frontLeftPulseCount;
 	@SuppressWarnings("unused")
 	private CANTalon rearLeftTalon;
+	public double rearLeftPulseCount;
 	private CANTalon frontRightTalon;
+	public double frontRightPulseCount;
 	@SuppressWarnings("unused")
 	private CANTalon rearRightTalon;
+	public double rearRightPulseCount;
 	private RobotDrive drive;
 	private Encoder frontLeftEncoder, frontRightEncoder, rearLeftEncoder, rearRightEncoder;
 	// If an encoder fails the bot shall live on!
@@ -57,7 +60,7 @@ public class DriveTrain extends Subsystem
 			gyro.reset();
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("DriveTrain", "Gyro Sensor - " + e.getMessage());
+			lumberjack.dashLogError("DriveTrainGryo", e.getMessage());
 		}
 
 		try
@@ -65,17 +68,26 @@ public class DriveTrain extends Subsystem
 			frontLeftTalon = Talon.initTalon(RobotMap.FRONT_LEFT_DRIVE);
 			try
 			{
-				//frontLeftEncoder = new Encoder(RobotMap.Encoders.FRONT_LEFT_DRIVE_A, RobotMap.Encoders.FRONT_LEFT_DRIVE_B);
-				frontLeftTalon.changeControlMode(ControlMode.Position);
-				frontLeftTalon.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-//				frontLeftEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
-//				frontLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+				// frontLeftEncoder = new
+				// Encoder(RobotMap.Encoders.FRONT_LEFT_DRIVE_A,
+				// RobotMap.Encoders.FRONT_LEFT_DRIVE_B);
+
+				// For some reason this cripples the talon...
+				frontLeftTalon.changeControlMode(CANTalon.ControlMode.Position);
+				frontLeftTalon.set(frontLeftPulseCount);
+				frontLeftTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+				// frontLeftTalon.reverseSensor(true);
+				frontLeftTalon.setP(1);
+				frontLeftTalon.setPosition(0);
+
+				// frontLeftEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
+				// frontLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
 			} catch (Exception err)
 			{
 				bEncoderFailure = true;
 				lumberjack.dashLogError("DriveTrainEncoder", "FrontLeft Encoder Failure: " + err.getMessage());
 			}
-			
+
 			// Sets the encoder to zero as well as allows the motor to function!
 			frontLeftTalon.enableControl();
 		} catch (Exception e)
@@ -89,9 +101,11 @@ public class DriveTrain extends Subsystem
 			rearLeftTalon.enableControl();
 			try
 			{
-//				rearLeftEncoder = new Encoder(RobotMap.Encoders.REAR_LEFT_DRIVE_A, RobotMap.Encoders.REAR_LEFT_DRIVE_B);
-//				frontRightEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
-//				frontRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+				// rearLeftEncoder = new
+				// Encoder(RobotMap.Encoders.REAR_LEFT_DRIVE_A,
+				// RobotMap.Encoders.REAR_LEFT_DRIVE_B);
+				// frontRightEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
+				// frontRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
 			} catch (Exception err)
 			{
 				bEncoderFailure = true;
@@ -108,9 +122,11 @@ public class DriveTrain extends Subsystem
 			frontRightTalon.enableControl();
 			try
 			{
-//				frontRightEncoder = new Encoder(RobotMap.Encoders.FRONT_RIGHT_DRIVE_A, RobotMap.Encoders.FRONT_RIGHT_DRIVE_B);
-//				rearLeftEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
-//				rearLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+				// frontRightEncoder = new
+				// Encoder(RobotMap.Encoders.FRONT_RIGHT_DRIVE_A,
+				// RobotMap.Encoders.FRONT_RIGHT_DRIVE_B);
+				// rearLeftEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
+				// rearLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
 			} catch (Exception err)
 			{
 				bEncoderFailure = true;
@@ -127,9 +143,11 @@ public class DriveTrain extends Subsystem
 			rearRightTalon.enableControl();
 			try
 			{
-//				rearRightEncoder = new Encoder(RobotMap.Encoders.REAR_RIGHT_DRIVE_A, RobotMap.Encoders.REAR_RIGHT_DRIVE_B);
-//				rearRightEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
-//				rearRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+				// rearRightEncoder = new
+				// Encoder(RobotMap.Encoders.REAR_RIGHT_DRIVE_A,
+				// RobotMap.Encoders.REAR_RIGHT_DRIVE_B);
+				// rearRightEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
+				// rearRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
 			} catch (Exception err)
 			{
 				bEncoderFailure = true;
@@ -167,6 +185,7 @@ public class DriveTrain extends Subsystem
 	public void tankDrive(Joystick joystick)
 	{
 		drive.tankDrive(joystick.getY(), joystick.getRawAxis(4));
+		gyro.dashLog();
 	}
 
 	public void arcadeDrive(Joystick joystick)
@@ -185,7 +204,8 @@ public class DriveTrain extends Subsystem
 		{
 			sensitivity = 0.0;
 		}
-		this.drive.mecanumDrive_Cartesian(x * sensitivity, y * sensitivity, twist * sensitivity, 0);
+		this.drive.mecanumDrive_Cartesian(x * sensitivity, y * sensitivity, twist * sensitivity, gyro.getAngle());
+		gyro.dashLog();
 	}
 
 	/**
@@ -194,13 +214,14 @@ public class DriveTrain extends Subsystem
 	public void stopTankDrive()
 	{
 		this.drive.tankDrive(0, 0);
+		gyro.dashLog();
 	}
-	
+
 	public void stopMecanumDrive()
 	{
-		//this.drive.m
+		this.drive.mecanumDrive_Cartesian(0, 0, 0, 0);
 	}
-	
+
 	/**
 	 * @return The distance of the encoder.
 	 */
@@ -208,7 +229,7 @@ public class DriveTrain extends Subsystem
 	{
 		return encoder.getDistance();
 	}
-	
+
 	/**
 	 * @return The rate (distance/time) of the encoder.
 	 */
@@ -216,7 +237,7 @@ public class DriveTrain extends Subsystem
 	{
 		return encoder.getRate();
 	}
-	
+
 	/**
 	 * @return The direction of the encoder.
 	 */
@@ -224,7 +245,7 @@ public class DriveTrain extends Subsystem
 	{
 		return encoder.getDirection();
 	}
-	
+
 	/**
 	 * @return The flag identifying rotating status of the encoder.
 	 */
@@ -232,7 +253,7 @@ public class DriveTrain extends Subsystem
 	{
 		return encoder.getStopped();
 	}
-	
+
 	/**
 	 * The log method puts information of interest from the DriveTrain subsystem
 	 * to the SmartDashboard.
@@ -242,10 +263,13 @@ public class DriveTrain extends Subsystem
 		if (!bEncoderFailure)
 		{
 			// Encoder feedback
-//			lumberjack.dashLogNumber("EncoderFrontLeft", getEncoderDistance(frontLeftEncoder));
-//			lumberjack.dashLogNumber("EncoderFrontRight", getEncoderDistance(frontRightEncoder));
-//			lumberjack.dashLogNumber("EncoderRearLeft", getEncoderDistance(rearLeftEncoder));
-//			lumberjack.dashLogNumber("EncoderRearRight", getEncoderDistance(rearRightEncoder));
+			lumberjack.dashLogNumber("EncoderFrontLeft", frontLeftPulseCount);
+			// lumberjack.dashLogNumber("EncoderFrontRight",
+			// getEncoderDistance(frontRightEncoder));
+			// lumberjack.dashLogNumber("EncoderRearLeft",
+			// getEncoderDistance(rearLeftEncoder));
+			// lumberjack.dashLogNumber("EncoderRearRight",
+			// getEncoderDistance(rearRightEncoder));
 		}
 	}
 }

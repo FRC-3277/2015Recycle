@@ -58,12 +58,14 @@ public class CompassSensor extends Subsystem
 //			else
 //			{
 //				boolean bSensorAlive = i2c.addressOnly();
-//				double sensorAlive = bSensorAlive ? 1 : 0;
-//				lumberjack.dashLogNumber("CompassSensorAlive", sensorAlive);
+//				if (bSensorAlive)
+//				{
+//					lumberjack.dashLogError("CompassSensorAlive", "Device did not respond");
+//				}
 //			}
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("CompassSensorBeginRemoveMe", "Error: " + e.getMessage());
+			lumberjack.dashLogError("CompassSensorBeginRemoveMe", e.getMessage());
 		}
 
 		try
