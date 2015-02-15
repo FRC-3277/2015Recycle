@@ -58,7 +58,7 @@ public class Logger
 			{
 				stringMostRecentError = message;
 				SmartDashboard.putString("Error" + subsystem, message);
-				System.out.println(message);
+				System.out.println(subsystem + " Error: " + message);
 			}
 		}
 		else
@@ -66,7 +66,7 @@ public class Logger
 			bStringErrorSet = true;
 			stringMostRecentError = message;
 			SmartDashboard.putString("Error" + subsystem, message);
-			System.out.println(message);
+			System.out.println(subsystem + " Error: " + message);
 		}
 	}
 }

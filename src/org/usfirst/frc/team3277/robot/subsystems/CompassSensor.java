@@ -40,31 +40,48 @@ public class CompassSensor extends Subsystem
 	public CompassSensor()
 	{
 		lumberjack = new Logger();
+		try
+		{
+			try
+			{
+				// Enable I2C
+				i2c = new I2C(Port.kMXP, RobotMap.HMC5883_ADDRESS_MAG);
+			} catch (Exception e)
+			{
+				lumberjack.dashLogError("CompassSensorEnableI2C", e.getMessage());
+			}
+			
+			if (!begin())
+			{
+				lumberjack.dashLogError("CompassSensor", "HMC5883 not detected ... Check your wiring!");
+			} 
+//			else
+//			{
+//				boolean bSensorAlive = i2c.addressOnly();
+//				double sensorAlive = bSensorAlive ? 1 : 0;
+//				lumberjack.dashLogNumber("CompassSensorAlive", sensorAlive);
+//			}
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("CompassSensorBeginRemoveMe", "Error: " + e.getMessage());
+		}
 
-		i2c = new I2C(Port.kMXP, RobotMap.HMC5883_ADDRESS_MAG);
-		
-		task = new CompassUpdater();
-		updater = new java.util.Timer();
+		try
+		{
+			task = new CompassUpdater();
+			updater = new java.util.Timer();
 
-		compassDataSet = new CompassData();
-		compassMagneticDataSet = new CompassMagneticData();
+			compassDataSet = new CompassData();
+			compassMagneticDataSet = new CompassMagneticData();
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("CompassSensorBeginEndRemoveMe", "Error: " + e.getMessage());
+		}
 	}
 
 	/***************************************************************************
 	 * PRIVATE FUNCTIONS
 	 ***************************************************************************/
-
-	/**************************************************************************/
-	/*
-	 * !
-	 * 
-	 * @brief Abstract away platform differences in Arduino wire library
-	 */
-	/**************************************************************************/
-	private void write8(byte reg, byte value)
-	{
-		i2c.write(reg, value);
-	}
 
 	/**************************************************************************/
 	/*
@@ -97,8 +114,8 @@ public class CompassSensor extends Subsystem
 			byte dataRead[] = null;
 
 			// Read the magnetometer
-			i2c.write(RobotMap.HMC5883_REGISTER_MAG_OUT_X_H_M, 0x80);
-			i2c.read((byte) RobotMap.HMC5883_ADDRESS_MAG, (byte) 6, dataRead);
+			i2c.write(RobotMap.HMC5883_ADDRESS_MAG, RobotMap.HMC5883_REGISTER_MAG_OUT_X_H_M);
+			i2c.read(RobotMap.HMC5883_ADDRESS_MAG, 6, dataRead);
 			// Wait around until enough data is available
 			// while (Wire.available() < 6);
 
@@ -136,14 +153,23 @@ public class CompassSensor extends Subsystem
 	/**************************************************************************/
 	public boolean begin()
 	{
-		// Enable I2C
-		i2c = new I2C(Port.kMXP, RobotMap.HMC5883_ADDRESS_MAG);
+		try
+		{
+			// Enable the magnetometer
+			i2c.write(RobotMap.HMC5883_REGISTER_MAG_MR_REG_M, 0x00);
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("CompassSensorBeginEnable", e.getMessage());
+		}
 
-		// Enable the magnetometer
-		write8(RobotMap.HMC5883_REGISTER_MAG_MR_REG_M, (byte) 0x00);
-
-		// Set the gain to a known level
-		setMagGain(RobotMap.HMC5883_MAGGAIN_1_3);
+		try
+		{
+			// Set the gain to a known level
+			setMagGain(RobotMap.HMC5883_MAGGAIN_1_3);
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("CompassSensorSetGainBegin", e.getMessage());
+		}
 
 		return true;
 	}
@@ -159,7 +185,7 @@ public class CompassSensor extends Subsystem
 	{
 		try
 		{
-			write8(RobotMap.HMC5883_REGISTER_MAG_CRB_REG_M, (byte) gain);
+			i2c.write(RobotMap.HMC5883_REGISTER_MAG_CRB_REG_M, gain);
 
 			_magGain = gain;
 
@@ -196,7 +222,7 @@ public class CompassSensor extends Subsystem
 			}
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("CompassSensor", e.getMessage());
+			lumberjack.dashLogError("CompassSensorSetGain", e.getMessage());
 		}
 	}
 
@@ -226,7 +252,7 @@ public class CompassSensor extends Subsystem
 			compassMagneticDataSet.z = compassDataSet.z / _hmc5883_Gauss_LSB_Z * RobotMap.SENSORS_GAUSS_TO_MICROTESLA;
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("CompassSensor", e.getMessage());
+			lumberjack.dashLogError("CompassSensorGetEvent", e.getMessage());
 		}
 	}
 
@@ -287,7 +313,7 @@ public class CompassSensor extends Subsystem
 					Thread.sleep(10);
 				} catch (InterruptedException e)
 				{
-					lumberjack.dashLogError("CompassSensor", e.getMessage());
+					lumberjack.dashLogError("CompassSensorUpdater", e.getMessage());
 				}
 			}
 		}
