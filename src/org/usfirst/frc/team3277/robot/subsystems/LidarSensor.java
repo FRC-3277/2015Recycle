@@ -109,6 +109,16 @@ public class LidarSensor extends Subsystem implements PIDSource
 	 */
 	public void dashLog()
 	{
-		lumberjack.dashLogNumber("LidarDistance", pidGet());
+		double value;
+		try
+		{
+			value = pidGet();
+		}
+		catch (Exception e)
+		{
+			value = 0.0;
+			lumberjack.dashLogError("LidarSensorDistance", "Failure to calculate distance" + e.getMessage());
+		}
+		lumberjack.dashLogNumber("LidarDistance", value);
 	}
 }

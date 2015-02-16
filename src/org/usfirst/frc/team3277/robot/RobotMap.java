@@ -83,8 +83,23 @@ public class RobotMap
 	/*
 	 * Elevator joystick buttons
 	 */
-	public final static int BUTTON_ELEVATOR_UP = 8, BUTTON_ELEVATOR_HOLD = 10, BUTTON_ELEVATOR_DOWN = 12;
-
+	public final static int BUTTON_JOYSTICK_ELEVATOR_UP = 8, BUTTON_JOYSTICK_ELEVATOR_HOLD = 10, BUTTON_JOYSTICK_ELEVATOR_DOWN = 12;
+	
+	/*
+	 * Controller Axis
+	 */
+	public final static int CONTROLLER_AXIS_LEFT_RIGHT_X = 0, CONTROLLER_AXIS_FWD_REV_Y = 1, CONTROLLER_AXIS_CRAB_X = 4;
+	
+	/*
+	 * XBOX Controller dead zone
+	 */
+	public final static double CONTROLLER_DEAD_ZONE = 0.175;
+	
+	/*
+	 * Elevator controller buttons
+	 */
+	public final static int BUTTON_CONTROLLER_ELEVATOR_UP = 4, BUTTON_CONTROLLER_ELEVATOR_HOLD = 6, BUTTON_CONTROLLER_ELEVATOR_DOWN = 1;
+	
 	/*
 	 * Grabber motor
 	 */
@@ -95,12 +110,12 @@ public class RobotMap
 	/*
 	 * Grabber joystick buttons
 	 */
-	public final static int BUTTON_GRABBER_OPEN = 3, BUTTON_GRABBER_CLOSE = 4;
-
+	public final static int BUTTON_JOYSTICK_GRABBER_OPEN = 3, BUTTON_JOYSTICK_GRABBER_CLOSE = 4;
+	
 	/*
-	 * Autonomous mode joystick button
+	 * Grabber controller buttons
 	 */
-	public final static int BUTTON_AUTONOMOUS_MODE_ENABLE = 5;
+	public final static int BUTTON_CONTROLLER_GRABBER_OPEN = 2, BUTTON_CONTROLLER_GRABBER_CLOSE = 3;
 
 	/*************************** BEGIN SENSORS ***************************************/
 	/*

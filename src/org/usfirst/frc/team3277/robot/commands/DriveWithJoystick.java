@@ -25,8 +25,8 @@ public class DriveWithJoystick extends Command
 	protected void execute()
 	{
 		// Robot.drivetrain.arcadeDrive(Robot.operatorInterface.getJoystick());
-		Robot.drivetrain.mecanumDrive(Robot.operatorInterface.getJoystickX(), Robot.operatorInterface.getJoystickY(),
-				Robot.operatorInterface.getJoystickTwist(), 1.0);// (!joystick.getRawButton(2)
+		//Robot.drivetrain.mecanumDrive(Robot.operatorInterface.getJoystickX(), Robot.operatorInterface.getJoystickY(),	Robot.operatorInterface.getJoystickTwist(), 1.0);// (!joystick.getRawButton(2)
+		Robot.drivetrain.mecanumDrive(Robot.operatorInterface.getControllerX(), Robot.operatorInterface.getControllerY(), Robot.operatorInterface.getControllerTwist(), 1.0);// (!joystick.getRawButton(2)
 																	// ? 0.80 :
 																	// 1.0));
 	}

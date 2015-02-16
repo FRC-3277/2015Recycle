@@ -55,14 +55,6 @@ public class CompassSensor extends Subsystem
 			{
 				lumberjack.dashLogError("CompassSensor", "HMC5883 not detected ... Check your wiring!");
 			} 
-//			else
-//			{
-//				boolean bSensorAlive = i2c.addressOnly();
-//				if (bSensorAlive)
-//				{
-//					lumberjack.dashLogError("CompassSensorAlive", "Device did not respond");
-//				}
-//			}
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("CompassSensorBeginRemoveMe", e.getMessage());

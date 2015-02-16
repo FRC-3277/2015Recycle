@@ -59,19 +59,19 @@ public class Robot extends IterativeRobot
 		try
 		{
 			drivetrain = new DriveTrain();
+			bDrivetrain = true;
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("Robot", "Fatal Error DriveTrain: " + e.getMessage());
-			bDrivetrain = true;
 		}
 
 		try
 		{
 			elevator = new Elevator();
+			bElevator = true;
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("Robot", "Fatal Error Elevator: " + e.getMessage());
-			bElevator = true;
 		}
 
 		try
@@ -252,7 +252,7 @@ public class Robot extends IterativeRobot
 			autonomousCommand.start();
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("Robot", e.getMessage());
+			lumberjack.dashLogError("RobotAutonomousInit", e.getMessage());
 		}
 	}
 
@@ -268,7 +268,7 @@ public class Robot extends IterativeRobot
 			this.dashLog();
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("Robot", e.getMessage());
+			lumberjack.dashLogError("RobotAutonomous", e.getMessage());
 		}
 	}
 
@@ -286,7 +286,7 @@ public class Robot extends IterativeRobot
 			autonomousCommand.cancel();
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("Robot", e.getMessage());
+			lumberjack.dashLogError("RobotAutonomousCancel", e.getMessage());
 		}
 	}
 
@@ -302,7 +302,7 @@ public class Robot extends IterativeRobot
 			this.dashLog();
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("Robot", e.getMessage());
+			lumberjack.dashLogError("RobotTeleop", e.getMessage());
 		}
 	}
 
@@ -337,7 +337,7 @@ public class Robot extends IterativeRobot
 			}
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("RobotElevator", "Elevator Log Error: " + e.getMessage());
+			lumberjack.dashLogError("RobotElevator", e.getMessage());
 		}
 		
 		try
@@ -348,7 +348,7 @@ public class Robot extends IterativeRobot
 			}
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("RobotGrabber", "Grabber Log Error: " + e.getMessage());
+			lumberjack.dashLogError("RobotGrabber", e.getMessage());
 		}
 		
 		try
@@ -359,7 +359,7 @@ public class Robot extends IterativeRobot
 			}
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("RobotDriveTrain", "DriveTrain Log Error: " + e.getMessage());
+			lumberjack.dashLogError("RobotDriveTrain", e.getMessage());
 		}
 		
 		try
@@ -370,7 +370,7 @@ public class Robot extends IterativeRobot
 			}
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("RobotLidarSensor", "LidarSensor Log Error: " + e.getMessage());
+			lumberjack.dashLogError("RobotLidarSensor", e.getMessage());
 		}
 		
 		try
@@ -381,7 +381,7 @@ public class Robot extends IterativeRobot
 			}
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("RobotAccelerometer", "Accelerometer Log Error: " + e.getMessage());
+			lumberjack.dashLogError("RobotAccelerometer", e.getMessage());
 		}
 		
 		try
@@ -392,7 +392,19 @@ public class Robot extends IterativeRobot
 			}
 		} catch (Exception e)
 		{
-			lumberjack.dashLogError("RobotCopmpassSensor", "Compass Sensor Log Error: " + e.getMessage());
+			lumberjack.dashLogError("RobotCopmpassSensor", e.getMessage());
 		}
+		
+		try
+		{
+			if (bOperatorInterface)
+			{
+				operatorInterface.dashLog();
+			}
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("OperatorInterface", e.getMessage());
+		}
+		
 	}
 }

@@ -21,6 +21,8 @@ import org.usfirst.frc.team3277.robot.subsystems.Logger;
  */
 public class OI
 {
+	// Values
+	double x, y, twist;
 
 	// Driver input(s)
 	private Joystick joystick;
@@ -77,13 +79,13 @@ public class OI
 		try
 		{
 			// Grabber buttons
-			buttonGrabberOpen = new JoystickButton(joystick, RobotMap.BUTTON_GRABBER_OPEN);
-			buttonGrabberClose = new JoystickButton(joystick, RobotMap.BUTTON_GRABBER_CLOSE);
+			buttonGrabberOpen = new JoystickButton(controller, RobotMap.BUTTON_CONTROLLER_GRABBER_OPEN);
+			buttonGrabberClose = new JoystickButton(controller, RobotMap.BUTTON_CONTROLLER_GRABBER_CLOSE);
 
 			// Elevator buttons
-			buttonElevatorUp = new JoystickButton(joystick, RobotMap.BUTTON_ELEVATOR_UP);
-			buttonElevatorDown = new JoystickButton(joystick, RobotMap.BUTTON_ELEVATOR_DOWN);
-			buttonElevatorHold = new JoystickButton(joystick, RobotMap.BUTTON_ELEVATOR_HOLD);
+			buttonElevatorUp = new JoystickButton(controller, RobotMap.BUTTON_CONTROLLER_ELEVATOR_UP);
+			buttonElevatorDown = new JoystickButton(controller, RobotMap.BUTTON_CONTROLLER_ELEVATOR_DOWN);
+			buttonElevatorHold = new JoystickButton(controller, RobotMap.BUTTON_CONTROLLER_ELEVATOR_HOLD);
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "Button Mapping Error: " + e.getMessage());
@@ -145,16 +147,56 @@ public class OI
 
 	public double getJoystickX()
 	{
-		return joystick.getX();
+		this.x = joystick.getX();
+		return this.x;
 	}
 
 	public double getJoystickY()
 	{
-		return joystick.getY();
+		this.y = joystick.getY();
+		return this.y;
 	}
 
 	public double getJoystickTwist()
 	{
-		return joystick.getTwist();
+		this.twist = joystick.getTwist();
+		return this.twist;
+	}
+	
+	public double getControllerX()
+	{
+		this.x = applyDeadZone(controller.getRawAxis(RobotMap.CONTROLLER_AXIS_LEFT_RIGHT_X), RobotMap.CONTROLLER_DEAD_ZONE);
+		return this.x;
+	}
+	
+	public double getControllerY()
+	{
+		this.y = applyDeadZone(controller.getRawAxis(RobotMap.CONTROLLER_AXIS_FWD_REV_Y), RobotMap.CONTROLLER_DEAD_ZONE);
+		return this.y;
+	}
+	
+	public double getControllerTwist()
+	{
+		this.twist = applyDeadZone(controller.getRawAxis(RobotMap.CONTROLLER_AXIS_CRAB_X), RobotMap.CONTROLLER_DEAD_ZONE);
+		return this.twist;
+	}
+	
+	public double applyDeadZone(double value, double deadzone) {
+		double calculatedValue = 0.0;
+		
+		if (Math.abs(value) >= deadzone)
+		{
+			calculatedValue = value;
+		}
+		
+		return calculatedValue;
+	}
+	
+	/**
+	 * The log method puts information of interest from the OI subsystem to the SmartDashboard.
+	 */
+	public void dashLog()
+	{
+		
 	}
 }

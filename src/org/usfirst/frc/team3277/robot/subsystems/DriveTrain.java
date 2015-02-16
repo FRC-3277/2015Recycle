@@ -66,29 +66,6 @@ public class DriveTrain extends Subsystem
 		try
 		{
 			frontLeftTalon = Talon.initTalon(RobotMap.FRONT_LEFT_DRIVE);
-			try
-			{
-				// frontLeftEncoder = new
-				// Encoder(RobotMap.Encoders.FRONT_LEFT_DRIVE_A,
-				// RobotMap.Encoders.FRONT_LEFT_DRIVE_B);
-
-				// For some reason this cripples the talon...
-				frontLeftTalon.changeControlMode(CANTalon.ControlMode.Position);
-				frontLeftTalon.set(frontLeftPulseCount);
-				frontLeftTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-				// frontLeftTalon.reverseSensor(true);
-				frontLeftTalon.setP(1);
-				frontLeftTalon.setPosition(0);
-
-				// frontLeftEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
-				// frontLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
-			} catch (Exception err)
-			{
-				bEncoderFailure = true;
-				lumberjack.dashLogError("DriveTrainEncoder", "FrontLeft Encoder Failure: " + err.getMessage());
-			}
-
-			// Sets the encoder to zero as well as allows the motor to function!
 			frontLeftTalon.enableControl();
 		} catch (Exception e)
 		{
@@ -99,18 +76,6 @@ public class DriveTrain extends Subsystem
 		{
 			rearLeftTalon = Talon.initTalon(RobotMap.REAR_LEFT_DRIVE);
 			rearLeftTalon.enableControl();
-			try
-			{
-				// rearLeftEncoder = new
-				// Encoder(RobotMap.Encoders.REAR_LEFT_DRIVE_A,
-				// RobotMap.Encoders.REAR_LEFT_DRIVE_B);
-				// frontRightEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
-				// frontRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
-			} catch (Exception err)
-			{
-				bEncoderFailure = true;
-				lumberjack.dashLogError("DriveTrainEncoder", "FrontLeft Encoder Failure: " + err.getMessage());
-			}
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("DriveTrain", "LeftRear motor controller Failure: " + e.getMessage());
@@ -120,18 +85,6 @@ public class DriveTrain extends Subsystem
 		{
 			frontRightTalon = Talon.initTalon(RobotMap.FRONT_RIGHT_DRIVE);
 			frontRightTalon.enableControl();
-			try
-			{
-				// frontRightEncoder = new
-				// Encoder(RobotMap.Encoders.FRONT_RIGHT_DRIVE_A,
-				// RobotMap.Encoders.FRONT_RIGHT_DRIVE_B);
-				// rearLeftEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
-				// rearLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
-			} catch (Exception err)
-			{
-				bEncoderFailure = true;
-				lumberjack.dashLogError("DriveTrainEncoder", "FrontLeft Encoder Failure: " + err.getMessage());
-			}
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("DriveTrain", "FrontRight motor controller Failure: " + e.getMessage());
@@ -141,18 +94,6 @@ public class DriveTrain extends Subsystem
 		{
 			rearRightTalon = Talon.initTalon(RobotMap.REAR_RIGHT_DRIVE);
 			rearRightTalon.enableControl();
-			try
-			{
-				// rearRightEncoder = new
-				// Encoder(RobotMap.Encoders.REAR_RIGHT_DRIVE_A,
-				// RobotMap.Encoders.REAR_RIGHT_DRIVE_B);
-				// rearRightEncoder.setDistancePerPulse(RobotMap.Encoders.DISTANCE_TRAVELLED_PER_PULSE);
-				// rearRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
-			} catch (Exception err)
-			{
-				bEncoderFailure = true;
-				lumberjack.dashLogError("DriveTrainEncoder", "FrontLeft Encoder Failure: " + err.getMessage());
-			}
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("DriveTrain", "RearRight motor controller Failure: " + e.getMessage());
@@ -260,16 +201,6 @@ public class DriveTrain extends Subsystem
 	 */
 	public void dashLog()
 	{
-		if (!bEncoderFailure)
-		{
-			// Encoder feedback
-			lumberjack.dashLogNumber("EncoderFrontLeft", frontLeftPulseCount);
-			// lumberjack.dashLogNumber("EncoderFrontRight",
-			// getEncoderDistance(frontRightEncoder));
-			// lumberjack.dashLogNumber("EncoderRearLeft",
-			// getEncoderDistance(rearLeftEncoder));
-			// lumberjack.dashLogNumber("EncoderRearRight",
-			// getEncoderDistance(rearRightEncoder));
-		}
+
 	}
 }
