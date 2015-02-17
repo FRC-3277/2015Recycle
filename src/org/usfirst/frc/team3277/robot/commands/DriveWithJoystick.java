@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3277.robot.commands;
 
 import org.usfirst.frc.team3277.robot.Robot;
+import org.usfirst.frc.team3277.robot.subsystems.Logger;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,10 +14,12 @@ public class DriveWithJoystick extends Command
 {
 	double currentX, currentY, currentTwist, previousX = 0, previousY = 0, previousTwist = 0;
 	Timer timer;
+	static private Logger lumberjack;
 
 	public DriveWithJoystick()
 	{
 		timer = new Timer();
+		lumberjack = new Logger();
 		requires(Robot.drivetrain);
 	}
 

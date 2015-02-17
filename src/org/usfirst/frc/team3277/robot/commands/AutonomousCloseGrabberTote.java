@@ -39,4 +39,13 @@ public class AutonomousCloseGrabberTote extends Command {
     protected void interrupted() {
     	Robot.grabber.stopGrabber();
     }
+    
+    /**
+	 * The log method puts information of interest from the Grabber subsystem to
+	 * the SmartDashboard.
+	 */
+	public void dashLog()
+	{
+		lumberjack.dashLogNumber("Grabber", m_timeout);
+	}
 }
