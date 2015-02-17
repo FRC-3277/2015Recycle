@@ -1,30 +1,39 @@
 package org.usfirst.frc.team3277.robot.commands;
 
 import org.usfirst.frc.team3277.robot.Robot;
+import org.usfirst.frc.team3277.robot.RobotMap;
+import org.usfirst.frc.team3277.robot.subsystems.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *	The elevator requires assistance to hold location under load.
+ * 
  */
-public class ElevatorHold extends Command {
+public class AutonomousRaiseElevatorTote extends Command {
 
-    public ElevatorHold() {
+	Logger lumberjack;
+	
+    public AutonomousRaiseElevatorTote() {
+    	lumberjack = new Logger();
+    	
+    	setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE);
+    	
         requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.elevator.activeRaiseElevator();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevator.activeHoldElevator();
+    	dashLog();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();			
     }
 
     // Called once after isFinished returns true
@@ -37,4 +46,12 @@ public class ElevatorHold extends Command {
     protected void interrupted() {
     	Robot.elevator.stopElevator();
     }
+    
+    /**
+	 * The log method puts information of interest from the AutonomousRaiseElevatorTote Command to the RioLog.
+	 */
+	public void dashLog()
+	{
+		lumberjack.dashLogDebug(getName(), "Seconds to timeout: " + Double.toString((RobotMap.AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE - timeSinceInitialized())));
+	}
 }

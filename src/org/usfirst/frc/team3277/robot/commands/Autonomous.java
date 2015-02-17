@@ -27,7 +27,9 @@ public class Autonomous extends CommandGroup
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 		
-		addParallel(new GrabberClose());
+		addSequential(new AutonomousCloseGrabberTote());
+		addParallel(new AutonomousRaiseElevatorTote());
+		addParallel(new AutonomousRobotTurn());
 		
 	}
 }

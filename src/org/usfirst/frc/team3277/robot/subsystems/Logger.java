@@ -42,7 +42,15 @@ public class Logger
 	{
 		SmartDashboard.putString(key, message);
 	}
-
+	
+	/*
+	 * Log debug information to RioLog.
+	 */
+	public void dashLogDebug(String subsystem, String message)
+	{
+		System.out.println(subsystem + " Debug: " + message);
+	}
+	
 	/**
 	 * Log errors to the SmartDashboard. Only one error will be represented at a
 	 * time which may mask multiple errors. Particularly useful in cases where

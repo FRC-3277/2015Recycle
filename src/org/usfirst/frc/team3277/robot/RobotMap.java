@@ -9,6 +9,34 @@ package org.usfirst.frc.team3277.robot;
  */
 public class RobotMap
 {
+	/*************************** BEGIN AUTONOMOUS *****************************************/
+	/*
+	 * Timeouts: All timeouts are in seconds.
+	 */
+	public final static int AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE = 10, AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE = 2, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN = 4,
+			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 10;
+	
+	/*
+	 * Drive Train turn speed
+	 */
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED = 0.6;
+	
+	/*
+	 * Drive Train travel speed.
+	 */
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_SPEED = 0.8;
+	
+	/*
+	 * Drive Train turn degrees.  Positive for CW turning.  Negative for CCW turning.
+	 */
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES = 90;
+	
+	/*
+	 * Drive Train travel distance to travel in cm.
+	 */
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 10;
+	
+	/*************************** END AUTONOMOUS *******************************************/
 	/*
 	 * Safety First! If the robot goes rogue this is the time in seconds which
 	 * the robot will stop moving.

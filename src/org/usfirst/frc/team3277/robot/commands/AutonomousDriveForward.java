@@ -7,51 +7,51 @@ import org.usfirst.frc.team3277.robot.subsystems.Logger;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *	Step 1.  Close z grabber on z tote!
+ *
  */
-public class AutonomousCloseGrabberTote extends Command {
-	
+public class AutonomousDriveForward extends Command {
 	Logger lumberjack;
+	boolean lidarHasFailed = false;
 	
-    public AutonomousCloseGrabberTote() {
+    public AutonomousDriveForward() {
     	lumberjack = new Logger();
     	
-    	setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE);
+    	// Initially setup the timeout with intention of overriding in the event that Lidar proves viable.
+    	setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD);
     	
-    	requires(Robot.grabber);
+        requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.grabber.activelyCloseGrabber();
+    	// TODO: Determine if Lidar is functional.  If not then stick with timeout already assigned.  Otherwise override.
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	dashLog();
+    	Robot.drivetrain.mechanumDriveMoveForward();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+    	if (!lidarHasFailed)
+    	{
+    		return false;
+    	}
+    	else
+    	{
+    		return isTimedOut();
+    	}
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.grabber.stopGrabber();
+    	Robot.drivetrain.stopMecanumDrive();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.grabber.stopGrabber();
+    	Robot.drivetrain.stopMecanumDrive();
     }
-    
-    /**
-	 * The log method puts information of interest from the AutonomousCloseGrabberTote Command to the RioLog.
-	 */
-	public void dashLog()
-	{
-		lumberjack.dashLogDebug(getName(), "Seconds to timeout: " + Double.toString((RobotMap.AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE - timeSinceInitialized())));
-	}
 }
