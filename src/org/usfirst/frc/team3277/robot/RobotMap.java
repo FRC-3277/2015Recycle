@@ -12,29 +12,32 @@ public class RobotMap
 	/*************************** BEGIN AUTONOMOUS *****************************************/
 	/*
 	 * Timeouts: All timeouts are in seconds.
+	 * 
+	 * AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN tested rate of turn is 360 degrees in 4 seconds.
+	 * AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE tested close full was between 2 and 3 second.
 	 */
-	public final static int AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE = 10, AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE = 2, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN = 4,
-			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 10;
+	public final static int AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE = 2, AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE = 2, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN = 1,
+			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 2, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD_lIDAR_WORKS_OVERRIDE = 20;
 	
 	/*
 	 * Drive Train turn speed
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED = 0.6;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED = 0.5;
 	
 	/*
 	 * Drive Train travel speed.
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_SPEED = 0.8;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_SPEED = 0.3;
 	
 	/*
 	 * Drive Train turn degrees.  Positive for CW turning.  Negative for CCW turning.
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES = 90;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES = -90;
 	
 	/*
 	 * Drive Train travel distance to travel in cm.
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 10;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 550;
 	
 	/*************************** END AUTONOMOUS *******************************************/
 	/*
@@ -46,7 +49,7 @@ public class RobotMap
 	/*
 	 * Operator input device port
 	 */
-	public final static int OPERATOR_INPUT_DEVICE_JOYSTICK = 0, OPERATOR_INPUT_DEVICE_CONTROLLER = 1;
+	public final static int OPERATOR_INPUT_DEVICE_JOYSTICK = 1, OPERATOR_INPUT_DEVICE_CONTROLLER = 0;
 
 	/*
 	 * DriveTrain Motors - Keep the same for ProtoBot, Swerve, or Mecanum drive.

@@ -7,18 +7,18 @@ import org.usfirst.frc.team3277.robot.subsystems.Logger;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *	Step 1.  Close z grabber on z tote!
+ * 
  */
-public class AutonomousCloseGrabberTote extends Command {
-	
+public class AutonomousRaiseElevatorTote extends Command {
+
 	Logger lumberjack;
 	
-    public AutonomousCloseGrabberTote() {
+    public AutonomousRaiseElevatorTote() {
     	lumberjack = new Logger();
     	
-    	setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE);
+    	setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE);
     	
-    	requires(Robot.grabber);
+        requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
@@ -27,31 +27,31 @@ public class AutonomousCloseGrabberTote extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.grabber.activelyCloseGrabber();
+    	Robot.elevator.activeRaiseElevator();
     	dashLog();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+        return isTimedOut();			
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.grabber.stopGrabber();
+    	Robot.elevator.stopElevator();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.grabber.stopGrabber();
+    	Robot.elevator.stopElevator();
     }
     
     /**
-	 * The log method puts information of interest from the AutonomousCloseGrabberTote Command to the RioLog.
+	 * The log method puts information of interest from the AutonomousRaiseElevatorTote Command to the RioLog.
 	 */
 	public void dashLog()
 	{
-		lumberjack.dashLogDebug(getName(), "Seconds to timeout: " + Double.toString((RobotMap.AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE - timeSinceInitialized())));
+		lumberjack.dashLogDebug(getName(), "Seconds to timeout: " + Double.toString((RobotMap.AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE - timeSinceInitialized())));
 	}
 }

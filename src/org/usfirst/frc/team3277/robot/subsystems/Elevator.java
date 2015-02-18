@@ -58,7 +58,7 @@ public class Elevator extends Subsystem
 		elevatorMotor.set(RobotMap.ELEVATOR_MOTOR_HOLD_SPEED);
 	}
 
-	public void stopMotor()
+	public void stopElevator()
 	{
 		elevatorMotor.set(0);
 	}

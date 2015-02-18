@@ -154,7 +154,7 @@ public class DriveTrain extends Subsystem
 	 */
 	public void mecanumDriveTurn(double directionToTurn)
 	{
-		this.drive.mecanumDrive_Cartesian(0, directionToTurn, 0, 0);
+		this.drive.mecanumDrive_Cartesian(0, 0, directionToTurn, 0);
 	}
 	
 	/*
@@ -162,7 +162,7 @@ public class DriveTrain extends Subsystem
 	 */
 	public void mechanumDriveMoveForward()
 	{
-		this.drive.mecanumDrive_Cartesian(RobotMap.AUTONOMOUS_DRIVE_TRAIN_TRAVEL_SPEED, 0, 0, 0);
+		this.drive.mecanumDrive_Cartesian(0, -RobotMap.AUTONOMOUS_DRIVE_TRAIN_TRAVEL_SPEED, 0, 0);
 	}
 
 	/**
