@@ -37,7 +37,7 @@ public class DriveTrain extends Subsystem
 	private boolean bEncoderFailure = false;
 
 	// Gryo
-	GyroSensor gyro;
+	public GyroSensor gyro;
 
 	// Safety
 	MotorSafety motorSafety;
@@ -145,8 +145,24 @@ public class DriveTrain extends Subsystem
 		{
 			sensitivity = 0.0;
 		}
-		this.drive.mecanumDrive_Cartesian(x * sensitivity, y * sensitivity, twist * sensitivity, gyro.getAngle());
+		this.drive.mecanumDrive_Cartesian(x * sensitivity, y * sensitivity, twist * sensitivity, 0);
 		gyro.dashLog();
+	}
+	
+	/*
+	 * Turn the mechanum drive.  The direction turned is CW for positive and CCW for negative.
+	 */
+	public void mecanumDriveTurn(double directionToTurn)
+	{
+		this.drive.mecanumDrive_Cartesian(0, directionToTurn, 0, 0);
+	}
+	
+	/*
+	 * Drive the robot forward.
+	 */
+	public void mechanumDriveMoveForward()
+	{
+		this.drive.mecanumDrive_Cartesian(RobotMap.AUTONOMOUS_DRIVE_TRAIN_TRAVEL_SPEED, 0, 0, 0);
 	}
 
 	/**
