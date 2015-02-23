@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AutonomousDriveForward extends Command {
 	Logger lumberjack;
 	boolean lidarHasFailed = false;
+	double distanceLidarDetected;
 	
     public AutonomousDriveForward() {
     	lumberjack = new Logger();
@@ -24,12 +25,41 @@ public class AutonomousDriveForward extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// TODO: Determine if Lidar is functional.  If not then stick with timeout already assigned.  Otherwise override.
+    	// Determine if Lidar is functional.  If not then stick with timeout already assigned.  Otherwise override.
+    	try
+		{
+    		distanceLidarDetected = Robot.lidarSensor.getDistance();
+    		// In case null is returned
+			if (Robot.lidarSensor.getDistance() > 0)
+			{
+				setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD_lIDAR_WORKS_OVERRIDE);
+			}
+		} catch (Exception e)
+		{
+			lidarHasFailed = true;
+			Robot.lumberjack.dashLogError("AutonomousDriveForward", "Lidar failed to initialize.  Default to time mode.");
+		}
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.mechanumDriveMoveForward();
+    	if(!lidarHasFailed)
+    	{
+    		distanceLidarDetected = Robot.lidarSensor.getDistance();
+    		if (distanceLidarDetected < RobotMap.AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE)
+    		{
+    			distanceLidarDetected = Robot.lidarSensor.getDistance();
+    			Robot.drivetrain.mechanumDriveMoveForward();
+    		}
+    		else
+    		{
+    			Robot.drivetrain.stopMecanumDrive();
+    		}
+    	}
+    	else
+    	{
+    		Robot.drivetrain.mechanumDriveMoveForward();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

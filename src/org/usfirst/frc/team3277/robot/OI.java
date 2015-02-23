@@ -3,6 +3,7 @@ package org.usfirst.frc.team3277.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team3277.robot.RobotMap;
 
@@ -16,13 +17,14 @@ import org.usfirst.frc.team3277.robot.subsystems.Logger;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  * 
- * This is where UP+UP+DOWN+DOWN+LEFT+RIGHT+LEFT+RIGHT+B+A+SELECT+START means
+ * This is where UP+UP+DOWN+DOWN+LEFT+RIGHT+LEFT+RIGHT+B+A+B+A+SELECT+START means
  * something!
  */
 public class OI
 {
 	// Values
 	double x, y, twist;
+	boolean finesseButton;
 
 	// Driver input(s)
 	private Joystick joystick;
@@ -32,6 +34,9 @@ public class OI
 	private JoystickButton buttonGrabberOpen, buttonGrabberClose, buttonElevatorUp, buttonElevatorDown, buttonElevatorHold;
 
 	public static Logger lumberjack;
+	//double govper = 0;
+	
+	Timer timer;
 
 	public OI()
 	{
@@ -181,6 +186,12 @@ public class OI
 		return this.twist;
 	}
 	
+	public boolean getFinesseButton()
+	{
+		this.finesseButton = controller.getRawButton(RobotMap.BUTTON_CONTROLLER_FINESSE);
+		return this.finesseButton;
+	}
+	
 	public double applyDeadZone(double value, double deadzone) {
 		double calculatedValue = 0.0;
 		
@@ -192,11 +203,27 @@ public class OI
 		return calculatedValue;
 	}
 	
+//	 public double governor(double previousGovernor, Timer timestamp)
+//	 {
+//		double governorPercent = RobotMap.GOVERNOR_STARTING_PERCENT;
+//		governorPercent = previousGovernor * (Math.pow((2 + RobotMap.GOVERNOR_ACCELERATION_PERCENTAGE), timestamp.get())*2);
+//		if(governorPercent > 1){
+//			governorPercent = 1;
+//		}
+//		govper = governorPercent;
+//		return governorPercent;
+//	 }
+//	 
+//	 public void getGovernorTimestamp(Timer timestamp)
+//	 {
+//		this.timer = timestamp; 
+//	 }
+	
 	/**
 	 * The log method puts information of interest from the OI subsystem to the SmartDashboard.
 	 */
 	public void dashLog()
 	{
-		
+		//lumberjack.dashLogError("OI:", Double.toString(govper));
 	}
 }

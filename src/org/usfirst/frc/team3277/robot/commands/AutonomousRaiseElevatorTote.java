@@ -23,11 +23,11 @@ public class AutonomousRaiseElevatorTote extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.elevator.activeRaiseElevator();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.elevator.activeRaiseElevator();
     	dashLog();
     }
 

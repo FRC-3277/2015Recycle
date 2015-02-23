@@ -1,4 +1,5 @@
 /bin/
-/sysProps.xml
-/.classpath
-/.class
+*.class
+*.classpath
+*.jar
+*.xml

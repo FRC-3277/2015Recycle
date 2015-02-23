@@ -13,18 +13,18 @@ public class AutonomousRobotTurn extends Command {
 
 	Logger lumberjack;
 	double currentAngleInDegrees;
+	boolean overrideGyro = true;
 	
     public AutonomousRobotTurn() {
     	lumberjack = new Logger();
-    	
-    	setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN);
     	
         requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	currentAngleInDegrees = Robot.drivetrain.gyro.getAngle();
+    	setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN);
+    	//currentAngleInDegrees = Robot.drivetrain.gyro.getAngle();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,15 +33,15 @@ public class AutonomousRobotTurn extends Command {
     	if (RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES > 0)
     	{
     		// CW Turning
-    		while (currentAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES < Robot.drivetrain.gyro.getAngle())
+    		if (currentAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES <= Robot.drivetrain.gyro.getAngle())
     		{
-    			Robot.drivetrain.mecanumDriveTurn(RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
+    			//Robot.drivetrain.mecanumDriveTurn(RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
     		}
     	}
     	else
     	{
     		// CCW Turning
-    		while (currentAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES > Robot.drivetrain.gyro.getAngle())
+    		if ((currentAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES >= Robot.drivetrain.gyro.getAngle())||overrideGyro)
     		{
     			Robot.drivetrain.mecanumDriveTurn(-RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
     		}

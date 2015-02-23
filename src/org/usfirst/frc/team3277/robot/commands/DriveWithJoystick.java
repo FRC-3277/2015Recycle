@@ -1,9 +1,8 @@
 package org.usfirst.frc.team3277.robot.commands;
 
 import org.usfirst.frc.team3277.robot.Robot;
-import org.usfirst.frc.team3277.robot.subsystems.Logger;
+import org.usfirst.frc.team3277.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -12,22 +11,20 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveWithJoystick extends Command
 {
-	double currentX, currentY, currentTwist, previousX = 0, previousY = 0, previousTwist = 0;
-	Timer timer;
-	static private Logger lumberjack;
 
+	double currentX, currentY, currentTwist, previousX = 0, previousY = 0, previousTwist = 0, finesseMultiplier = 1, throttleMultiplier = 1; //, governorX = RobotMap.GOVERNOR_STARTING_PERCENT, governorY = RobotMap.GOVERNOR_STARTING_PERCENT, governorTwist = RobotMap.GOVERNOR_STARTING_PERCENT;
+//	Timer timerX, timerY, timerTwist;
+	boolean finesseButton;
+	
 	public DriveWithJoystick()
 	{
-		timer = new Timer();
-		lumberjack = new Logger();
-		requires(Robot.drivetrain);
+		requires(Robot.drivetrain);		
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize()
 	{
-		timer.reset();
-	    timer.start();
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -36,22 +33,10 @@ public class DriveWithJoystick extends Command
 		currentX = Robot.operatorInterface.getControllerX();
 		currentY = Robot.operatorInterface.getControllerY();
 		currentTwist = Robot.operatorInterface.getControllerTwist();
-		
-		if (currentX <= previousX || currentY <= previousY || currentTwist <= previousTwist)
-		{
-			timer.reset();
-			Robot.operatorInterface.getGovernorTimestamp(timer);
-		}
-		
-		previousX = currentX;
-		previousY = currentY;
-		previousTwist = currentTwist;
-		
-		// Robot.drivetrain.arcadeDrive(Robot.operatorInterface.getJoystick());
-		//Robot.drivetrain.mecanumDrive(Robot.operatorInterface.getJoystickX(), Robot.operatorInterface.getJoystickY(),	Robot.operatorInterface.getJoystickTwist(), 1.0);// (!joystick.getRawButton(2)
-		Robot.drivetrain.mecanumDrive(currentX, currentY, currentTwist, 1.0);// (!joystick.getRawButton(2)
-																	// ? 0.80 :
-																	// 1.0));
+		finesseButton = Robot.operatorInterface.getFinesseButton();
+		finesseMultiplier = RobotMap.FINESSE_VELOCITY_PERCENTAGE;
+		throttleMultiplier = RobotMap.STANDARD_VELOCITY_PERCENTAGE;
+		Robot.drivetrain.mecanumDrive(currentX, currentY, currentTwist, (finesseButton ? finesseMultiplier : throttleMultiplier));
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -71,5 +56,14 @@ public class DriveWithJoystick extends Command
 	protected void interrupted()
 	{
 		end();
+	}
+	
+	/**
+	 * The log method puts information of interest from the DriveWithJoystick subsystem
+	 * to the SmartDashboard.
+	 */
+	public void dashLog()
+	{
+	//	lumberjack.dashLogError("DriveWithJoystick:", Double.toString(timerX.get()));
 	}
 }
