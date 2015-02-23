@@ -15,6 +15,7 @@ import org.usfirst.frc.team3277.robot.subsystems.LidarSensor;
 import org.usfirst.frc.team3277.robot.subsystems.Accelerometer;
 import org.usfirst.frc.team3277.robot.subsystems.Logger;
 import org.usfirst.frc.team3277.robot.subsystems.CompassSensor;
+import org.usfirst.frc.team3277.robot.subsystems.NavX_IMU;
 
 // Commands to include
 import org.usfirst.frc.team3277.robot.commands.Autonomous;
@@ -39,13 +40,14 @@ public class Robot extends IterativeRobot
 	public static Accelerometer accelerometer;
 	public static Logger lumberjack;
 	public static CompassSensor compassSensor;
+	public static NavX_IMU imu;
 	public static OI operatorInterface;
-	
+
 	/*
 	 * Avoiding calls to subsystems that could not initialize.
 	 */
-	boolean bDrivetrain = false, bElevator = false, bGrabber = false, bUsbCamera = false,
-			bLidarSensor = false, bAccelerometer = false, bCompassSensor = false, bOperatorInterface = false;
+	boolean bDrivetrain = false, bElevator = false, bGrabber = false, bUsbCamera = false, bLidarSensor = false,
+			bAccelerometer = false, bCompassSensor = false, bOperatorInterface = false, bImu = false;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -55,7 +57,7 @@ public class Robot extends IterativeRobot
 	{
 		// Initialize the subsystems
 		lumberjack = new Logger(); // Make first priority to enable ability to capture logging.
-		
+
 		try
 		{
 			drivetrain = new DriveTrain();
@@ -118,7 +120,16 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("Robot", "Fatal Error CompassSensor: " + e.getMessage());
 		}
-		
+
+		try
+		{
+			imu = new NavX_IMU();
+			bImu = true;
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("Robot", "Fatal Error NavX: " + e.getMessage());
+		}
+
 		try
 		{
 			operatorInterface = new OI();
@@ -172,7 +183,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotDriveTrain", "DriveTrain SmartDashboard Error: " + e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bElevator)
@@ -183,7 +194,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotElevator", "Elevator SmartDashboard Error: " + e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bGrabber)
@@ -194,7 +205,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotGrabber", "Grabber SmartDashboard Error: " + e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bUsbCamera)
@@ -205,7 +216,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotUsbCamera", "UsbCamera SmartDashboard Error: " + e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bLidarSensor)
@@ -216,7 +227,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotLidarSensor", "LidarSensor SmartDashboard Error: " + e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bAccelerometer)
@@ -227,7 +238,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotAccelerometer", "Accelerometer SmartDashboard Error: " + e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bCompassSensor)
@@ -237,6 +248,18 @@ public class Robot extends IterativeRobot
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("RobotCompassSensor", "CompassSensor SmartDashboard Error: " + e.getMessage());
+		}
+		
+		try
+		{
+			if (bImu)
+			{
+				SmartDashboard.putData(imu);
+			}
+		}
+		catch (Exception e)
+		{
+			lumberjack.dashLogError("RobotNavX", "NavX SmartDashboard Error: " + e.getMessage());
 		}
 	}
 
@@ -339,7 +362,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotElevator", e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bGrabber)
@@ -350,7 +373,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotGrabber", e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bDrivetrain)
@@ -361,7 +384,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotDriveTrain", e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bLidarSensor)
@@ -372,7 +395,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotLidarSensor", e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bAccelerometer)
@@ -383,7 +406,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("RobotAccelerometer", e.getMessage());
 		}
-		
+
 		try
 		{
 			if (bCompassSensor)
@@ -397,6 +420,17 @@ public class Robot extends IterativeRobot
 		
 		try
 		{
+			if (bImu)
+			{
+				imu.dashLog();
+			}
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("RobotNavX", e.getMessage());
+		}
+
+		try
+		{
 			if (bOperatorInterface)
 			{
 				operatorInterface.dashLog();
@@ -405,6 +439,6 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("OperatorInterface", e.getMessage());
 		}
-		
+
 	}
 }
