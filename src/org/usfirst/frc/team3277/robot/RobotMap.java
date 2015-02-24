@@ -11,6 +11,17 @@ public class RobotMap
 {
 	/*************************** BEGIN AUTONOMOUS *****************************************/
 	/*
+	 * Critical to correct/calibrate this for each competition. Failure to do so
+	 * will result in Autonomous mode fireworks.
+	 * 
+	 * The variable works only when assigned values 0 - 360. 0 and 360 should be
+	 * the same value which is magnetic north. (Need to verify that magnetic
+	 * north is the value and not true north). The reason for this value is is
+	 * to have some means of waypoint to reference against throughout the game.
+	 */
+	public final static float COMPASS_ALLIANCE_WALL_HEADING_WAYPOINT = 0.0f;
+
+	/*
 	 * Timeouts: All timeouts are in seconds.
 	 * 
 	 * AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN tested rate of turn is 360 degrees in 4 seconds.
@@ -35,7 +46,8 @@ public class RobotMap
 	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES = -90;
 	
 	/*
-	 * Drive Train travel distance to travel in cm.
+	 * Drive Train travel distance to travel in cm.  Calculate in 5% accuracy error of Lidar sensor.  Add 
+	 * extra error buffer for robot coasting.
 	 */
 	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 550;
 	
@@ -221,17 +233,6 @@ public class RobotMap
 
 	// Sensor type
 	public final static int SENSOR_TYPE_MAGNETIC_FIELD = (2);
-
-	/*
-	 * Critical to correct/calibrate this for each competition. Failure to do so
-	 * will result in Autonomous mode fireworks.
-	 * 
-	 * The variable works only when assigned values 0 - 360. 0 and 360 should be
-	 * the same value which is magnetic north. (Need to verify that magnetic
-	 * north is the value and not true north). The reason for this value is is
-	 * to have some means of waypoint to reference against throughout the game.
-	 */
-	public final static int COMPASS_ALLIANCE_WALL_HEADING_WAYPOINT = 0;
 
 	/*
 	 * End Compass section

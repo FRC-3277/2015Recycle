@@ -15,6 +15,8 @@ public class NavX_IMU extends Subsystem
 	
 	SerialPort usbSerialPort;
 	IMU imu;
+	float mostRecentKnownHeading = 0;
+	boolean subsystemReady = false;
 	
 	static private Logger lumberjack;
 
@@ -28,22 +30,23 @@ public class NavX_IMU extends Subsystem
 		lumberjack = new Logger();
 		
 		usbSerialPort = new SerialPort(57600,SerialPort.Port.kUSB);
+		
 		imu = new IMU(usbSerialPort);
 		
-        if (!imu.isCalibrating() ) {
-            Timer.delay( 0.3 );
-            imu.zeroYaw();
+        while (imu.isCalibrating() ) {
+            Timer.delay( 0.1 );
         }
+        Timer.delay( 0.3 );
+        imu.zeroYaw();
 	}
 	
 	public float getHeading()
 	{
-		
-		boolean is_calibrating = imu.isCalibrating();
-        if ( !is_calibrating ) {
-        	return imu.getCompassHeading();
+        if ( !imu.isCalibrating() ) {
+        	mostRecentKnownHeading = imu.getCompassHeading();
+        	return mostRecentKnownHeading;
         }
-		return 0;
+		return mostRecentKnownHeading;
 	}
 	
 	/**
@@ -52,6 +55,7 @@ public class NavX_IMU extends Subsystem
 	 */
 	public void dashLog()
 	{
-		lumberjack.dashLogNumber("NavXCompass", getHeading());
+		float logHeading = getHeading();
+		lumberjack.dashLogNumber("NavXCompass", logHeading);
 	}
 }
