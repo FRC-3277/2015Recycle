@@ -38,12 +38,17 @@ public class DriveTrain extends Subsystem
 
 	// Gryo
 	public GyroSensor gyro;
+	
+	//IMU
+	public NavX_IMU imu;
 
 	// Safety
 	MotorSafety motorSafety;
 	MotorSafetyHelper watchdog;
 
 	static private Logger lumberjack;
+	
+	private boolean bImu = false;
 
 	public void initDefaultCommand()
 	{
@@ -61,6 +66,15 @@ public class DriveTrain extends Subsystem
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("DriveTrainGryo", e.getMessage());
+		}
+		
+		try
+		{
+			imu = new NavX_IMU();
+			bImu = true;
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("Robot", "Fatal Error NavX: " + e.getMessage());
 		}
 
 		try
@@ -217,6 +231,16 @@ public class DriveTrain extends Subsystem
 	 */
 	public void dashLog()
 	{
+		try
+		{
+			if (bImu)
+			{
+				imu.dashLog();
+			}
+		} catch (Exception e)
+		{
+			lumberjack.dashLogError("RobotNavX", e.getMessage());
+		}
 
 	}
 }

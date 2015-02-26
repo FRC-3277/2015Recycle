@@ -40,14 +40,13 @@ public class Robot extends IterativeRobot
 	public static Accelerometer accelerometer;
 	public static Logger lumberjack;
 	public static CompassSensor compassSensor;
-	public static NavX_IMU imu;
 	public static OI operatorInterface;
 
 	/*
 	 * Avoiding calls to subsystems that could not initialize.
 	 */
 	boolean bDrivetrain = false, bElevator = false, bGrabber = false, bUsbCamera = false, bLidarSensor = false,
-			bAccelerometer = false, bCompassSensor = false, bOperatorInterface = false, bImu = false;
+			bAccelerometer = false, bCompassSensor = false, bOperatorInterface = false;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -119,15 +118,6 @@ public class Robot extends IterativeRobot
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("Robot", "Fatal Error CompassSensor: " + e.getMessage());
-		}
-
-		try
-		{
-			imu = new NavX_IMU();
-			bImu = true;
-		} catch (Exception e)
-		{
-			lumberjack.dashLogError("Robot", "Fatal Error NavX: " + e.getMessage());
 		}
 
 		try
@@ -248,18 +238,6 @@ public class Robot extends IterativeRobot
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("RobotCompassSensor", "CompassSensor SmartDashboard Error: " + e.getMessage());
-		}
-		
-		try
-		{
-			if (bImu)
-			{
-				SmartDashboard.putData(imu);
-			}
-		}
-		catch (Exception e)
-		{
-			lumberjack.dashLogError("RobotNavX", "NavX SmartDashboard Error: " + e.getMessage());
 		}
 	}
 
@@ -416,17 +394,6 @@ public class Robot extends IterativeRobot
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("RobotCopmpassSensor", e.getMessage());
-		}
-		
-		try
-		{
-			if (bImu)
-			{
-				imu.dashLog();
-			}
-		} catch (Exception e)
-		{
-			lumberjack.dashLogError("RobotNavX", e.getMessage());
 		}
 
 		try

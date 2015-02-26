@@ -9,58 +9,64 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Turn the robot a specified number of degrees.
  */
-public class AutonomousRobotTurn extends Command {
+public class AutonomousRobotTurn extends Command
+{
 
 	Logger lumberjack;
-	double currentAngleInDegrees;
-	boolean overrideGyro = true;
-	
-    public AutonomousRobotTurn() {
-    	lumberjack = new Logger();
-    	
-        requires(Robot.drivetrain);
-    }
+	double startAngleInDegrees, currentAngleInDegrees;
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN);
-    	//currentAngleInDegrees = Robot.drivetrain.gyro.getAngle();
-    }
+	public AutonomousRobotTurn()
+	{
+		lumberjack = new Logger();
 
-    // Called repeatedly when this Command is scheduled to run
-    @SuppressWarnings("unused")
-	protected void execute() {
-    	if (RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES > 0)
-    	{
-    		// CW Turning
-    		if (currentAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES <= Robot.drivetrain.gyro.getAngle())
-    		{
-    			//Robot.drivetrain.mecanumDriveTurn(RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
-    		}
-    	}
-    	else
-    	{
-    		// CCW Turning
-    		if ((currentAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES >= Robot.drivetrain.gyro.getAngle())||overrideGyro)
-    		{
-    			Robot.drivetrain.mecanumDriveTurn(-RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
-    		}
-    	}
-    }
+		requires(Robot.drivetrain);
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return isTimedOut();
-    }
+	// Called just before this Command runs the first time
+	protected void initialize()
+	{
+		setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN);
+		startAngleInDegrees = Robot.drivetrain.imu.getHeading();
+		currentAngleInDegrees = Robot.drivetrain.imu.getHeading();
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	Robot.drivetrain.stopMecanumDrive();
-    }
+	// Called repeatedly when this Command is scheduled to run
+	@SuppressWarnings("unused")
+	protected void execute()
+	{
+		if (RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES > 0)
+		{
+			// CW Turning
+			if (startAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES <= Robot.drivetrain.imu.getHeading())
+			{
+				Robot.drivetrain.mecanumDriveTurn(RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
+			}
+		} else
+		{
+			// CCW Turning
+			if (startAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES >= Robot.drivetrain.imu.getHeading())
+			{
+				Robot.drivetrain.mecanumDriveTurn(-RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
+			}
+		}
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	Robot.drivetrain.stopMecanumDrive();
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished()
+	{
+		return isTimedOut();
+	}
+
+	// Called once after isFinished returns true
+	protected void end()
+	{
+		Robot.drivetrain.stopMecanumDrive();
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted()
+	{
+		Robot.drivetrain.stopMecanumDrive();
+	}
 }

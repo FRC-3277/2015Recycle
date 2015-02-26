@@ -48,8 +48,14 @@ public class RobotMap
 	/*
 	 * Drive Train travel distance to travel in cm.  Calculate in 5% accuracy error of Lidar sensor.  Add 
 	 * extra error buffer for robot coasting.
+	 * 
+	 * Measured to 25.5 ft which comes to 777.24 cm on the field.
+	 * Lidar accuracy +/- 2.5cm
+	 * Puts it at 774.74
+	 * Coast guestemated at 10 cm
+	 * 764.74
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 550;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 764.74;
 	
 	/*************************** END AUTONOMOUS *******************************************/
 	/*
