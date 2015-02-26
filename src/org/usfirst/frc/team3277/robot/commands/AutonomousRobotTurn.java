@@ -14,6 +14,7 @@ public class AutonomousRobotTurn extends Command
 
 	Logger lumberjack;
 	double startAngleInDegrees, currentAngleInDegrees;
+	boolean overrideNavX = true;
 
 	public AutonomousRobotTurn()
 	{
@@ -26,8 +27,11 @@ public class AutonomousRobotTurn extends Command
 	protected void initialize()
 	{
 		setTimeout(RobotMap.AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN);
-		startAngleInDegrees = Robot.drivetrain.imu.getHeading();
-		currentAngleInDegrees = Robot.drivetrain.imu.getHeading();
+		if (!overrideNavX)
+		{
+			startAngleInDegrees = (double) Robot.drivetrain.imu.getHeading();
+			currentAngleInDegrees = (double) Robot.drivetrain.imu.getHeading();
+		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -37,14 +41,28 @@ public class AutonomousRobotTurn extends Command
 		if (RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES > 0)
 		{
 			// CW Turning
-			if (startAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES <= Robot.drivetrain.imu.getHeading())
+			if (!overrideNavX)
+			{
+				if (startAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES <= (double) Robot.drivetrain.imu.getHeading())
+				{
+					Robot.drivetrain.mecanumDriveTurn(RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
+				}
+			}
+			else
 			{
 				Robot.drivetrain.mecanumDriveTurn(RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
 			}
 		} else
 		{
 			// CCW Turning
-			if (startAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES >= Robot.drivetrain.imu.getHeading())
+			if (!overrideNavX)
+			{
+				if (startAngleInDegrees + RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES >= (double) Robot.drivetrain.imu.getHeading())
+				{
+					Robot.drivetrain.mecanumDriveTurn(-RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
+				}
+			}
+			else
 			{
 				Robot.drivetrain.mecanumDriveTurn(-RobotMap.AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED);
 			}

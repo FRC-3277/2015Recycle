@@ -28,7 +28,7 @@ public class RobotMap
 	 * AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE tested close full was between 2 and 3 second.
 	 */
 	public final static int AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE = 2, AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE = 2, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN = 1,
-			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 2, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD_lIDAR_WORKS_OVERRIDE = 20;
+			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 5, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD_lIDAR_WORKS_OVERRIDE = 10;
 	
 	/*
 	 * Drive Train turn speed
@@ -43,7 +43,7 @@ public class RobotMap
 	/*
 	 * Drive Train turn degrees.  Positive for CW turning.  Negative for CCW turning.
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES = -90;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_DEGREES = 90;
 	
 	/*
 	 * Drive Train travel distance to travel in cm.  Calculate in 5% accuracy error of Lidar sensor.  Add 
@@ -55,7 +55,7 @@ public class RobotMap
 	 * Coast guestemated at 10 cm
 	 * 764.74
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 764.74;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 600.74;
 	
 	/*************************** END AUTONOMOUS *******************************************/
 	/*

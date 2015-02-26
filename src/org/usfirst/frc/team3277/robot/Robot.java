@@ -14,8 +14,6 @@ import org.usfirst.frc.team3277.robot.subsystems.UsbCamera;
 import org.usfirst.frc.team3277.robot.subsystems.LidarSensor;
 import org.usfirst.frc.team3277.robot.subsystems.Accelerometer;
 import org.usfirst.frc.team3277.robot.subsystems.Logger;
-import org.usfirst.frc.team3277.robot.subsystems.CompassSensor;
-import org.usfirst.frc.team3277.robot.subsystems.NavX_IMU;
 
 // Commands to include
 import org.usfirst.frc.team3277.robot.commands.Autonomous;
@@ -39,7 +37,6 @@ public class Robot extends IterativeRobot
 	public static LidarSensor lidarSensor;
 	public static Accelerometer accelerometer;
 	public static Logger lumberjack;
-	public static CompassSensor compassSensor;
 	public static OI operatorInterface;
 
 	/*
@@ -113,15 +110,6 @@ public class Robot extends IterativeRobot
 
 		try
 		{
-			compassSensor = new CompassSensor();
-			bCompassSensor = true;
-		} catch (Exception e)
-		{
-			lumberjack.dashLogError("Robot", "Fatal Error CompassSensor: " + e.getMessage());
-		}
-
-		try
-		{
 			operatorInterface = new OI();
 			bOperatorInterface = true;
 		} catch (Exception e)
@@ -139,18 +127,6 @@ public class Robot extends IterativeRobot
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("LidarSensor", "Fatal Error LidarSensor: " + e.getMessage());
-		}
-
-		// Start reading from the Arduino
-		try
-		{
-			if (bCompassSensor)
-			{
-				compassSensor.start();
-			}
-		} catch (Exception e)
-		{
-			lumberjack.dashLogError("compassSensor", "Fatal Error CompassSensor Start: " + e.getMessage());
 		}
 
 		// instantiate the command used for the autonomous period
@@ -227,17 +203,6 @@ public class Robot extends IterativeRobot
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("RobotAccelerometer", "Accelerometer SmartDashboard Error: " + e.getMessage());
-		}
-
-		try
-		{
-			if (bCompassSensor)
-			{
-				SmartDashboard.putData(compassSensor);
-			}
-		} catch (Exception e)
-		{
-			lumberjack.dashLogError("RobotCompassSensor", "CompassSensor SmartDashboard Error: " + e.getMessage());
 		}
 	}
 
@@ -383,17 +348,6 @@ public class Robot extends IterativeRobot
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("RobotAccelerometer", e.getMessage());
-		}
-
-		try
-		{
-			if (bCompassSensor)
-			{
-				compassSensor.dashLog();
-			}
-		} catch (Exception e)
-		{
-			lumberjack.dashLogError("RobotCopmpassSensor", e.getMessage());
 		}
 
 		try
