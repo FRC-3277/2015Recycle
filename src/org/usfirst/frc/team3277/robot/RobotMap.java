@@ -49,7 +49,7 @@ public class RobotMap
 	/*
 	 * Operator input device port
 	 */
-	public final static int OPERATOR_INPUT_DEVICE_JOYSTICK = 1, OPERATOR_INPUT_DEVICE_CONTROLLER = 0;
+	public final static int OPERATOR_INPUT_DEVICE_JOYSTICK = 1, OPERATOR_INPUT_DEVICE_CONTROLLER_MAIN = 0, OPERATOR_INPUT_DEVICE_CONTROLLER_ASSISTANT = 1;
 
 	/*
 	 * DriveTrain Motors - Keep the same for ProtoBot, Swerve, or Mecanum drive.

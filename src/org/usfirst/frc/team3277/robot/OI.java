@@ -24,17 +24,16 @@ public class OI
 {
 	// Values
 	double x, y, twist;
-	boolean finesseButton;
+	boolean finesseButton, bControllerAssistant = true;
 
 	// Driver input(s)
 	private Joystick joystick;
-	private Joystick controller;
+	private Joystick controllerMain, controllerAssistant;
 
 	// Joystick buttons
 	private JoystickButton buttonGrabberOpen, buttonGrabberClose, buttonElevatorUp, buttonElevatorDown, buttonElevatorHold;
 
 	public static Logger lumberjack;
-	//double govper = 0;
 	
 	Timer timer;
 
@@ -43,7 +42,8 @@ public class OI
 		lumberjack = new Logger();
 
 		joystick = new Joystick(RobotMap.OPERATOR_INPUT_DEVICE_JOYSTICK);
-		controller = new Joystick(RobotMap.OPERATOR_INPUT_DEVICE_CONTROLLER);
+		controllerMain = new Joystick(RobotMap.OPERATOR_INPUT_DEVICE_CONTROLLER_MAIN);
+		controllerAssistant = new Joystick(RobotMap.OPERATOR_INPUT_DEVICE_CONTROLLER_ASSISTANT);
 
 		try
 		{
@@ -83,14 +83,30 @@ public class OI
 		// Button creation grouped by subsystem
 		try
 		{
-			// Grabber buttons
-			buttonGrabberOpen = new JoystickButton(controller, RobotMap.BUTTON_CONTROLLER_GRABBER_OPEN);
-			buttonGrabberClose = new JoystickButton(controller, RobotMap.BUTTON_CONTROLLER_GRABBER_CLOSE);
-
-			// Elevator buttons
-			buttonElevatorUp = new JoystickButton(controller, RobotMap.BUTTON_CONTROLLER_ELEVATOR_UP);
-			buttonElevatorDown = new JoystickButton(controller, RobotMap.BUTTON_CONTROLLER_ELEVATOR_DOWN);
-			buttonElevatorHold = new JoystickButton(controller, RobotMap.BUTTON_CONTROLLER_ELEVATOR_HOLD);
+			if (bControllerAssistant)
+			{
+				// Secondary controller enabled for subsystem controls
+				// Grabber buttons assigned to main
+				buttonGrabberOpen = new JoystickButton(controllerAssistant, RobotMap.BUTTON_CONTROLLER_GRABBER_OPEN);
+				buttonGrabberClose = new JoystickButton(controllerAssistant, RobotMap.BUTTON_CONTROLLER_GRABBER_CLOSE);
+	
+				// Elevator buttons
+				buttonElevatorUp = new JoystickButton(controllerAssistant, RobotMap.BUTTON_CONTROLLER_ELEVATOR_UP);
+				buttonElevatorDown = new JoystickButton(controllerAssistant, RobotMap.BUTTON_CONTROLLER_ELEVATOR_DOWN);
+				buttonElevatorHold = new JoystickButton(controllerAssistant, RobotMap.BUTTON_CONTROLLER_ELEVATOR_HOLD);
+			}
+			else
+			{
+				// Main controller enabled for subsystem controls.  Secondary controller disabled
+				// Grabber buttons assigned to main
+				buttonGrabberOpen = new JoystickButton(controllerMain, RobotMap.BUTTON_CONTROLLER_GRABBER_OPEN);
+				buttonGrabberClose = new JoystickButton(controllerMain, RobotMap.BUTTON_CONTROLLER_GRABBER_CLOSE);
+	
+				// Elevator buttons
+				buttonElevatorUp = new JoystickButton(controllerMain, RobotMap.BUTTON_CONTROLLER_ELEVATOR_UP);
+				buttonElevatorDown = new JoystickButton(controllerMain, RobotMap.BUTTON_CONTROLLER_ELEVATOR_DOWN);
+				buttonElevatorHold = new JoystickButton(controllerMain, RobotMap.BUTTON_CONTROLLER_ELEVATOR_HOLD);
+			}
 		} catch (Exception e)
 		{
 			lumberjack.dashLogError("OI", "Button Mapping Error: " + e.getMessage());
@@ -142,7 +158,7 @@ public class OI
 
 	public Joystick getController()
 	{
-		return controller;
+		return controllerMain;
 	}
 
 	public Joystick getJoystick()
@@ -170,25 +186,25 @@ public class OI
 	
 	public double getControllerX()
 	{
-		this.x = applyDeadZone(controller.getRawAxis(RobotMap.CONTROLLER_AXIS_LEFT_RIGHT_X), RobotMap.CONTROLLER_DEAD_ZONE);
+		this.x = applyDeadZone(controllerMain.getRawAxis(RobotMap.CONTROLLER_AXIS_LEFT_RIGHT_X), RobotMap.CONTROLLER_DEAD_ZONE);
 		return this.x;
 	}
 	
 	public double getControllerY()
 	{
-		this.y = applyDeadZone(controller.getRawAxis(RobotMap.CONTROLLER_AXIS_FWD_REV_Y), RobotMap.CONTROLLER_DEAD_ZONE);
+		this.y = applyDeadZone(controllerMain.getRawAxis(RobotMap.CONTROLLER_AXIS_FWD_REV_Y), RobotMap.CONTROLLER_DEAD_ZONE);
 		return this.y;
 	}
 	
 	public double getControllerTwist()
 	{
-		this.twist = applyDeadZone(controller.getRawAxis(RobotMap.CONTROLLER_AXIS_CRAB_X), RobotMap.CONTROLLER_DEAD_ZONE);
+		this.twist = applyDeadZone(controllerMain.getRawAxis(RobotMap.CONTROLLER_AXIS_CRAB_X), RobotMap.CONTROLLER_DEAD_ZONE);
 		return this.twist;
 	}
 	
 	public boolean getFinesseButton()
 	{
-		this.finesseButton = controller.getRawButton(RobotMap.BUTTON_CONTROLLER_FINESSE);
+		this.finesseButton = controllerMain.getRawButton(RobotMap.BUTTON_CONTROLLER_FINESSE);
 		return this.finesseButton;
 	}
 	
