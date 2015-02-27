@@ -198,7 +198,7 @@ public class RobotMap
 	 */
 	public final static String USB_CAMERA_WRONG_WIRING = "cam1";
 
-	public final static int USB_CAMERA_QUALITY = 50;
+	public final static int USB_CAMERA_QUALITY = 45;
 
 	/*
 	 * LIDAR - DO NOT ALTER! Derived from documentation.

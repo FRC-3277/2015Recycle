@@ -24,7 +24,7 @@ public class OI
 {
 	// Values
 	double x, y, twist;
-	boolean finesseButton, bControllerAssistant = true;
+	boolean finesseButton, bControllerAssistant = false;
 
 	// Driver input(s)
 	private Joystick joystick;
