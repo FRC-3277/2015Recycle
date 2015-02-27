@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot
 	public static Grabber grabber;
 	public static UsbCamera usbCamera;
 	public static LidarSensor lidarSensor;
-	public static Accelerometer accelerometer;
+//	public static Accelerometer accelerometer;
 	public static Logger lumberjack;
 	public static OI operatorInterface;
 
@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot
 		{
 			lumberjack.dashLogError("Robot", "Fatal Error Elevator: " + e.getMessage());
 		}
-
+		
 		try
 		{
 			grabber = new Grabber();
@@ -99,15 +99,15 @@ public class Robot extends IterativeRobot
 			lumberjack.dashLogError("Robot", "Fatal Error Lidar: " + e.getMessage());
 		}
 
-		try
-		{
-			accelerometer = new Accelerometer();
-			bAccelerometer = true;
-		} catch (Exception e)
-		{
-			lumberjack.dashLogError("Robot", "Fatal Error Accelerometer: " + e.getMessage());
-		}
-
+//		try
+//		{
+//			accelerometer = new Accelerometer();
+//			bAccelerometer = true;
+//		} catch (Exception e)
+//		{
+//			lumberjack.dashLogError("Robot", "Fatal Error Accelerometer: " + e.getMessage());
+//		}
+		
 		try
 		{
 			operatorInterface = new OI();
@@ -194,16 +194,16 @@ public class Robot extends IterativeRobot
 			lumberjack.dashLogError("RobotLidarSensor", "LidarSensor SmartDashboard Error: " + e.getMessage());
 		}
 
-		try
-		{
-			if (bAccelerometer)
-			{
-				SmartDashboard.putData(accelerometer);
-			}
-		} catch (Exception e)
-		{
-			lumberjack.dashLogError("RobotAccelerometer", "Accelerometer SmartDashboard Error: " + e.getMessage());
-		}
+//		try
+//		{
+//			if (bAccelerometer)
+//			{
+//				SmartDashboard.putData(accelerometer);
+//			}
+//		} catch (Exception e)
+//		{
+//			lumberjack.dashLogError("RobotAccelerometer", "Accelerometer SmartDashboard Error: " + e.getMessage());
+//		}
 	}
 
 	/**
@@ -339,16 +339,16 @@ public class Robot extends IterativeRobot
 			lumberjack.dashLogError("RobotLidarSensor", e.getMessage());
 		}
 
-		try
-		{
-			if (bAccelerometer)
-			{
-				accelerometer.dashLog();
-			}
-		} catch (Exception e)
-		{
-			lumberjack.dashLogError("RobotAccelerometer", e.getMessage());
-		}
+//		try
+//		{
+//			if (bAccelerometer)
+//			{
+//				accelerometer.dashLog();
+//			}
+//		} catch (Exception e)
+//		{
+//			lumberjack.dashLogError("RobotAccelerometer", e.getMessage());
+//		}
 
 		try
 		{

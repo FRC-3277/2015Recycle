@@ -28,7 +28,7 @@ public class RobotMap
 	 * AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE tested close full was between 2 and 3 second.
 	 */
 	public final static int AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE = 2, AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE = 2, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN = 1,
-			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 5, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD_lIDAR_WORKS_OVERRIDE = 10;
+			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 5, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD_lIDAR_WORKS_OVERRIDE = 7;
 	
 	/*
 	 * Drive Train turn speed
@@ -53,9 +53,10 @@ public class RobotMap
 	 * Lidar accuracy +/- 2.5cm
 	 * Puts it at 774.74
 	 * Coast guestemated at 10 cm
-	 * 764.74
+	 * Length of bot frame is about 66 cm
+	 * 400
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 600.74;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 320;
 	
 	/*************************** END AUTONOMOUS *******************************************/
 	/*

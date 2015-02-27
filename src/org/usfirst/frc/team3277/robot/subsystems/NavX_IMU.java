@@ -56,6 +56,6 @@ public class NavX_IMU extends Subsystem
 	public void dashLog()
 	{
 		float logHeading = getHeading();
-		//lumberjack.dashLogNumber("NavXCompass", logHeading);
+		lumberjack.dashLogNumber("NavXCompass", logHeading);
 	}
 }

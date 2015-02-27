@@ -2,6 +2,7 @@ package org.usfirst.frc.team3277.robot.commands;
 
 import org.usfirst.frc.team3277.robot.Robot;
 import org.usfirst.frc.team3277.robot.RobotMap;
+import org.usfirst.frc.team3277.robot.subsystems.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,6 +17,8 @@ public class DriveWithJoystick extends Command
 //	Timer timerX, timerY, timerTwist;
 	boolean finesseButton;
 	
+	Logger lumberjack;
+	
 	public DriveWithJoystick()
 	{
 		requires(Robot.drivetrain);		
@@ -24,7 +27,7 @@ public class DriveWithJoystick extends Command
 	// Called just before this Command runs the first time
 	protected void initialize()
 	{
-		
+		lumberjack = new Logger();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -64,6 +67,6 @@ public class DriveWithJoystick extends Command
 	 */
 	public void dashLog()
 	{
-	//	lumberjack.dashLogError("DriveWithJoystick:", Double.toString(timerX.get()));
+		//lumberjack.dashLogDebug("DriveWithJoystick:", Float.toString(Robot.drivetrain.imu.getHeading()));
 	}
 }
