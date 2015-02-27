@@ -27,18 +27,18 @@ public class RobotMap
 	 * AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN tested rate of turn is 360 degrees in 4 seconds.
 	 * AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE tested close full was between 2 and 3 second.
 	 */
-	public final static int AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE = 2, AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE = 2, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN = 1,
-			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 5, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD_lIDAR_WORKS_OVERRIDE = 7;
+	public final static double AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE = 2, AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE = 2, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN = 1,
+			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 3.5;
 	
 	/*
 	 * Drive Train turn speed
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED = 0.5;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED = 0.42;
 	
 	/*
 	 * Drive Train travel speed.
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_SPEED = 0.3;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_SPEED = 0.6;
 	
 	/*
 	 * Drive Train turn degrees.  Positive for CW turning.  Negative for CCW turning.
