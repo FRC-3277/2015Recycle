@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AutonomousDriveForward extends Command
 {
 	Logger lumberjack;
-	boolean lidarHasFailed = false;
+	boolean lidarHasFailed = false, disableLidar = true;
 	double distanceLidarDetected;
 	Timer debugTimer;
 
@@ -30,42 +30,48 @@ public class AutonomousDriveForward extends Command
 	{
 		debugTimer = new Timer();
 		debugTimer.start();
-		
-		// Determine if Lidar is functional. If not then stick with timeout already assigned. Otherwise override.
+
+		// Determine if Lidar is functional. If not then stick with timeout
+		// already assigned. Otherwise override.
 		try
 		{
 			distanceLidarDetected = Robot.lidarSensor.getDistance();
 		} catch (Exception e)
 		{
 			lidarHasFailed = true;
-			Robot.lumberjack.dashLogError("AutonomousDriveForward", "Lidar failed to initialize.  Default to time mode.");
+			Robot.lumberjack.dashLogError("AutonomousDriveForward", "Lidar failed to initialize.");
 		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute()
 	{
-		if (!lidarHasFailed)
-		{
-			distanceLidarDetected = Robot.lidarSensor.getDistance();
-			if (distanceLidarDetected < RobotMap.AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE)
-			{
-				distanceLidarDetected = Robot.lidarSensor.getDistance();
-				Robot.drivetrain.mechanumDriveMoveForward();
-			} else
-			{
-				Robot.drivetrain.stopMecanumDrive();
-			}
-		} else
+		if (disableLidar)
 		{
 			Robot.drivetrain.mechanumDriveMoveForward();
+		} else
+		{
+			if (!lidarHasFailed)
+			{
+				distanceLidarDetected = Robot.lidarSensor.getDistance();
+				if (distanceLidarDetected < RobotMap.AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE)
+				{
+					Robot.drivetrain.mechanumDriveMoveForward();
+				} else
+				{
+					Robot.drivetrain.stopMecanumDrive();
+				}
+			} else
+			{
+				Robot.drivetrain.mechanumDriveMoveForward();
+			}
 		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished()
 	{
-			return isTimedOut();
+		return isTimedOut();
 	}
 
 	// Called once after isFinished returns true

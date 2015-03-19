@@ -28,17 +28,17 @@ public class RobotMap
 	 * AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE tested close full was between 2 and 3 second.
 	 */
 	public final static double AUTONOMOUS_TIMEOUT_GRABBER_CLOSE_TOTE = 2, AUTONOMOUS_TIMEOUT_ELEVATOR_RAISE_TOTE = 2, AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_TURN = 1,
-			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 3.5;
+			AUTONOMOUS_TIMEOUT_DRIVE_TRAIN_DRIVE_FORWARD = 3.55;
 	
 	/*
 	 * Drive Train turn speed
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED = 0.42;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TURN_SPEED = 0.45;
 	
 	/*
 	 * Drive Train travel speed.
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_SPEED = 0.6;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_SPEED = 0.3;
 	
 	/*
 	 * Drive Train turn degrees.  Positive for CW turning.  Negative for CCW turning.
@@ -56,7 +56,7 @@ public class RobotMap
 	 * Length of bot frame is about 66 cm
 	 * 400
 	 */
-	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 320;
+	public final static double AUTONOMOUS_DRIVE_TRAIN_TRAVEL_DISTANCE = 275;
 	
 	/*************************** END AUTONOMOUS *******************************************/
 	/*
